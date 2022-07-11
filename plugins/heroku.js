@@ -357,8 +357,9 @@ Module({
     allowed.split(",").map(e=> checker.push(message.message.includes(e)))
     if (!checker.includes(true)){
     if (!(await isAdmin(message,message.sender))) {
+    var usr = message.sender.includes(":") ? message.sender.split(":")[0]+"@s.whatsapp.net" : message.sender
     await message.sendReply("*Links aren't allowed!*");
-    await message.client.groupParticipantsUpdate(message.jid, [message.sender], "remove")
+    await message.client.groupParticipantsUpdate(message.jid, [usr], "remove")
     }
     }
     }
