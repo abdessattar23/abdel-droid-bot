@@ -49,8 +49,7 @@ Module({
 }, async (message, match) => {
 if (!match[1] || !message.reply_message || !message.reply_message.sticker) return await message.sendReply("_Reply to a sticker_\n_Ex: *.stickcmd kick*_")
 try { await stickCmd(extractData(message),match[1]); } catch {return await message.sendReply("_Failed!_")}
-return await message.client.sendMessage(message.jid,{text:`_Sticked command ${match[1]} to this sticker! Reconnecting..._`},{quoted:message.quoted});
-process.exit(0)
+await message.client.sendMessage(message.jid,{text:`_Sticked command ${match[1]} to this sticker! Reconnecting..._`},{quoted:message.quoted});
 });
 Module({
     pattern: "unstick ?(.*)",
@@ -79,7 +78,7 @@ if (mregex.test(match[1]) === false) return await message.sendReply("*Wrong form
 var admin = await isAdmin(message)
 if (!admin) return await message.sendReply("*I'm not admin*");
 await setAutoMute(message.jid,match[1]);
-return await message.sendReply(`*Group will automatically mute at ${tConvert(match[1])}. Reconnecting..*`)
+await message.sendReply(`*Group will automatically mute at ${tConvert(match[1])}. Reconnecting..*`)
 process.exit(0)
 });
 Module({
@@ -98,7 +97,7 @@ if (mregex.test(match[1]) === false) return await message.sendReply("*Wrong form
 var admin = await isAdmin(message)
 if (!admin) return await message.sendReply("*I'm not admin*");
 await setAutounMute(message.jid,match[1]);
-return await message.sendReply(`*Group will automatically open at ${tConvert(match[1])}. Reconnecting..*`)
+await message.sendReply(`*Group will automatically open at ${tConvert(match[1])}. Reconnecting..*`)
 process.exit(0)
 });
 var {
