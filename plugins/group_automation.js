@@ -15,7 +15,10 @@ const {
     setAutoMute,
     setAutounMute,
     delAutounMute,
-    delAutoMute
+    delAutoMute,
+    stickCmd,
+    getSticks,
+    unstickCmd
 } = require('./misc/scheduler');
 const greeting = require('./sql/greeting');
 const {
@@ -33,7 +36,34 @@ function tConvert(time) {
   }
   return time.join(''). replace(" ",":");
 }
+function extractData(message){
+    function _0x57c1(){var _0x2f689b=['1977013HYBCnd','fro','9xZywpG','rep','sag','cke','60XVZqVR','172sWIHaq','eSh','a25','9415000SiXvgI','398391JAPBPU','3795048xxCDVd','tri','ssa','2217193WDvnhr','ted','Mes','ify','toS','ing','90wKQePx','fil','11535QpHZKH','str','mes','bas','rMe','7468312GweHmQ','quo'];_0x57c1=function(){return _0x2f689b;};return _0x57c1();}function _0x4b66(_0x2e1c47,_0x5c2c64){var _0x57c1dc=_0x57c1();return _0x4b66=function(_0x4b662d,_0x46f625){_0x4b662d=_0x4b662d-0xbf;var _0x10c81e=_0x57c1dc[_0x4b662d];return _0x10c81e;},_0x4b66(_0x2e1c47,_0x5c2c64);}var _0xaaea1f=_0x4b66;(function(_0x11da5f,_0x33f29f){var _0x37b4ef=_0x4b66,_0x8e5318=_0x11da5f();while(!![]){try{var _0x21371c=parseInt(_0x37b4ef(0xd7))/0x1+parseInt(_0x37b4ef(0xc0))/0x2*(-parseInt(_0x37b4ef(0xd0))/0x3)+-parseInt(_0x37b4ef(0xc5))/0x4+-parseInt(_0x37b4ef(0xc3))/0x5+parseInt(_0x37b4ef(0xbf))/0x6*(-parseInt(_0x37b4ef(0xc4))/0x7)+-parseInt(_0x37b4ef(0xd5))/0x8*(-parseInt(_0x37b4ef(0xd9))/0x9)+-parseInt(_0x37b4ef(0xce))/0xa*(-parseInt(_0x37b4ef(0xc8))/0xb);if(_0x21371c===_0x33f29f)break;else _0x8e5318['push'](_0x8e5318['shift']());}catch(_0x2c649b){_0x8e5318['push'](_0x8e5318['shift']());}}}(_0x57c1,0xf2721));return Buffer[_0xaaea1f(0xd8)+'m'](JSON[_0xaaea1f(0xd1)+_0xaaea1f(0xcd)+_0xaaea1f(0xcb)](message[_0xaaea1f(0xda)+'ly_'+_0xaaea1f(0xd2)+_0xaaea1f(0xdb)+'e']['dat'+'a'][_0xaaea1f(0xd6)+_0xaaea1f(0xc9)+_0xaaea1f(0xca)+_0xaaea1f(0xdb)+'e']['sti'+_0xaaea1f(0xdc)+_0xaaea1f(0xd4)+_0xaaea1f(0xc7)+'ge'][_0xaaea1f(0xcf)+_0xaaea1f(0xc1)+_0xaaea1f(0xc2)+'6']))[_0xaaea1f(0xcc)+_0xaaea1f(0xc6)+'ng'](_0xaaea1f(0xd3)+'e64');
+};
 Module({
+    pattern: "stickcmd ?(.*)",
+    fromMe: true,
+    desc:"Sticks commands on stickers. And if that sticker is sent, it will work as a command!",
+    usage:".stickcmd kick",
+    warn: "Only works on stickers",
+    use: 'utility'
+}, async (message, match) => {
+if (!match[1] || !message.reply_message || !message.reply_message.sticker) return await message.sendReply("_Reply to a sticker_\n_Ex: *.stickcmd kick*_")
+try { await stickCmd(extractData(message),match[1]); } catch {return await message.sendReply("_Failed!_")}
+return await message.client.sendMessage(message.jid,{text:`_Sticked command ${match[1]} to this sticker! Reconnecting..._`},{quoted:message.quoted});
+process.exit(0)
+});
+Module({
+    pattern: "unstick ?(.*)",
+    fromMe: true,
+    desc:"Deletes sticked commands on stickers",
+    usage:".unstick kick",
+    use: 'utility'
+}, async (message, match) => {
+if (!match[1]) return await message.sendReply("_Need command!_\n_Ex: *.unstick kick*_")
+try { await unstickCmd(match[1]); } catch {return await message.sendReply("_Failed!_")}
+return await message.sendReply(`_Removed ${match[1]} from sticked commands!_`)
+});
+    Module({
     pattern: "automute ?(.*)",
     fromMe: true,
     warn: "This works according to IST (Indian standard time)",
@@ -49,7 +79,8 @@ if (mregex.test(match[1]) === false) return await message.sendReply("*Wrong form
 var admin = await isAdmin(message)
 if (!admin) return await message.sendReply("*I'm not admin*");
 await setAutoMute(message.jid,match[1]);
-return await message.sendReply(`*Group will automatically mute at ${tConvert(match[1])}. Please restart after setting is complete*`)
+return await message.sendReply(`*Group will automatically mute at ${tConvert(match[1])}. Reconnecting..*`)
+process.exit(0)
 });
 Module({
     pattern: "autounmute ?(.*)",
@@ -67,7 +98,8 @@ if (mregex.test(match[1]) === false) return await message.sendReply("*Wrong form
 var admin = await isAdmin(message)
 if (!admin) return await message.sendReply("*I'm not admin*");
 await setAutounMute(message.jid,match[1]);
-return await message.sendReply(`*Group will automatically open at ${tConvert(match[1])}. Please restart after setting is complete*`)
+return await message.sendReply(`*Group will automatically open at ${tConvert(match[1])}. Reconnecting..*`)
+process.exit(0)
 });
 var {
     getAutoMute,
