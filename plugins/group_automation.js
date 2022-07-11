@@ -56,9 +56,33 @@ Module({
     usage:".unstick kick",
     use: 'utility'
 }, async (message, match) => {
-if (!match[1]) return await message.sendReply("_Need command!_\n_Ex: *.unstick kick*_")
-try { await unstickCmd(match[1]); } catch {return await message.sendReply("_Failed!_")}
-return await message.sendReply(`_Removed ${match[1]} from sticked commands!_`)
+if (message.reply_message && message.reply_message.sticker){
+    let deleted = await unstickCmd(await extractData(message),2);
+    if (deleted) return await message.client.sendMessage(message.jid,{text:`_Removed sticker from commands!_`},{quoted:message.quoted})
+    if (deleted === false && match[1]) {
+        var delete_again = await unstickCmd(match[1])
+        if (delete_again) return await message.sendReply(`_Removed ${match[1]} from sticked commands!_`)
+        if (delete_again === false) return await message.sendReply("_No such sticker/command found!_")
+    }
+    if (deleted && !match[1]) return await message.sendMessage("_No such sticker found!_");
+}
+else if (match[1] && !message.reply_message) {
+let deleted = await unstickCmd(match[1])
+if (deleted) return await message.sendReply(`_Successfully removed ${match[1]} from sticked commands!_`)
+if (!deleted) return await message.sendReply("_No such command was found!_")
+} 
+else return await message.sendReply("_Need command or reply to a sticker!_\n_Ex: *.unstick kick*_")
+});
+Module({
+    pattern: "getstick ?(.*)",
+    fromMe: true,
+    desc:"Shows sticked commands on stickers",
+    use: 'utility'
+}, async (message, match) => {
+    var all = await getSticks();
+    var commands = all.map(element=>element.dataValues.file)
+    var msg = commands.join("_\n_");
+    message.sendReply("_*Stickified commands:*_\n\n_"+msg+"_")
 });
     Module({
     pattern: "automute ?(.*)",
@@ -119,6 +143,7 @@ for (e in mute){
 *➥ Mute:* ${tConvert(mute[e].time)}
 *➥ Unmute:* ${tConvert(mute[e].unmute)}` + "\n\n";
 };
+if (!msg) return await message.sendReply("_No mutes/unmutes found!_")
 message.sendReply("*Scheduled Mutes/Unmutes*\n\n"+msg)
 });
 Module({
