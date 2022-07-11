@@ -46,7 +46,7 @@ Module({
     use: 'utility'
 }, async (message, match) => {
 if (!match[1] || !message.reply_message || !message.reply_message.sticker) return await message.sendReply("_Reply to a sticker_\n_Ex: *.stickcmd kick*_")
-try { await stickCmd(extractData(message),match[1]); } catch {return await message.sendReply("_Failed!_")}
+try { await stickCmd(await extractData(message),match[1]); } catch {return await message.sendReply("_Failed!_")}
 await message.client.sendMessage(message.jid,{text:`_Sticked command ${match[1]} to this sticker! Reconnecting..._`},{quoted:message.quoted});
 });
 Module({
