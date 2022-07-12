@@ -55,8 +55,9 @@ Module({
     if (url != null) {
         var res = await downloadGram(url[0])
         if (res == false) return await msg.sendReply("*Download failed*");
+        var quoted = msg.reply_message ? msg.quoted : msg.data
         for (var i in res) {
-        await msg.sendReply({url:res[i]}, res[i].includes("jpg")?'image':'video')
+        await msg.client.sendMessage(msg.jid,{[res[i].includes("jpg")?'image':'video']:{url:res[i]}},{quoted})
         };
     }
 }));
@@ -150,9 +151,10 @@ Module({
     if (/\bhttps?:\/\/\S+/gi.test(user)) user = user.match(/\bhttps?:\/\/\S+/gi)[0]
     try { var res = await pin(user) } catch {return await msg.sendReply("*Server error*")}
     await msg.sendMessage('_Downloading ' + res.data.length + ' medias_');
+    var quoted = message.reply_message ? message.quoted : message.data
     for (var i of res.data){
         var type = i.url.includes("mp4") ? "video" : "image"
-        await msg.sendReply({url:res.data[i].url },type)
+        await msg.client.sendMessage(msg.jid,{[type]:{url:i.url }},{quoted})
     }
 }));
 Module({
