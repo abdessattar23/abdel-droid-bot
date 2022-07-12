@@ -20,7 +20,7 @@ const fs = require('fs');
 const Lang = getString('scrapers');
 let w = MODE == 'public' ? false : true
 const translate = require('@vitalets/google-translate-api');
-
+const { fromBuffer } = require('file-type')
 const {
     Module
 } = require('../main');
@@ -134,8 +134,22 @@ Module({
     match = match[1] ? match[1] : message.reply_message.text
     match = match.match(/\bhttps?:\/\/\S+/gi)[0]
     var quoted = message.reply_message ? message.quoted : message.data;
-    if (match.includes("images.app.goo")) match = await extractGoogleImage(match) 
-    await message.client.sendMessage(message.jid,{image:{url:match}},{quoted});
+    if (match.includes("images.app.goo")) match = await extractGoogleImage(match)
+    let file = await skbuffer(match)
+    let {mime} = await fromBuffer(file)
+    await message.client.sendMessage(message.jid,{document:file,mimetype:mime,fileName:"Content from "+match},{quoted});
+}));
+Module({
+    pattern: 'doc ?(.*)',
+    fromMe: w,
+    desc: "Message to document",
+    use: 'utility'
+}, (async (message, match) => {
+    if (!message.reply_message) return await message.sendReply("_Need a file!_");
+    match = match[1] ? match[1] : "file"
+    let file = fs.readFileSync(await message.reply_message.download())
+    let {mime} = await fromBuffer(file)
+    await message.client.sendMessage(message.jid,{document:file,mimetype:mime,fileName:match},{quoted: message.quoted});
 }));
 Module({
     pattern: 'video ?(.*)',
