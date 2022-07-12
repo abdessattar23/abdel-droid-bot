@@ -150,8 +150,8 @@ Module({
     if (/\bhttps?:\/\/\S+/gi.test(user)) user = user.match(/\bhttps?:\/\/\S+/gi)[0]
     try { var res = await pin(user) } catch {return await msg.sendReply("*Server error*")}
     await msg.sendMessage('_Downloading ' + res.data.length + ' medias_');
-    for (var i in res){
-        var type = res.data[i].url.includes("mp4") ? "video" : "image"
+    for (var i of res.data){
+        var type = i.url.includes("mp4") ? "video" : "image"
         await msg.sendReply({url:res.data[i].url },type)
     }
 }));
