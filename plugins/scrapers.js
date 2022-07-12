@@ -32,6 +32,10 @@ const {
 const LanguageDetect = require('languagedetect');
 const { downloadYT } = require('./misc/yt');
 const lngDetector = new LanguageDetect();
+async function extractGoogleImage(url){
+var result = (await axios(url)).data
+return result.match(/(?:href=['"])([:/.A-z?<_&\s=>0-9;-]+)/)[1]
+}
 Module({
     pattern: 'trt ?(.*)',
     fromMe: w,
@@ -113,16 +117,25 @@ Module({
     if (!match[1]) return await message.sendReply(Lang.NEED_WORD);
     var count = parseInt(match[1].split(",")[1]) || 5
     var query = match[1].split(",")[0] || match[1];
-    try {
-        const results = await gis(query);
+    const results = await gis(query);
         await message.sendReply(Lang.IMG.format(results.splice(0, count).length, query))
         for (var i = 0; i < (results.length < count ? results.length : count); i++) {
-         var buff = await skbuffer(results[i].url);
+         try { var buff = await skbuffer(results[i].url); } catch { var buff = await skbuffer("https://miro.medium.com/max/800/1*hFwwQAW45673VGKrMPE2qQ.png") }
          await message.sendMessage(buff, 'image');
         }
-    } catch (e) {
-        await message.sendReply(e);
-    }
+}));
+Module({
+    pattern: 'upload ?(.*)',
+    fromMe: w,
+    desc: "Downloads & uploads media from raw URL",
+    use: 'download'
+}, (async (message, match) => {
+    if (!match[1] && !message.reply_message.text) return await message.sendReply("_Need raw media url!_");
+    match = match[1] ? match[1] : message.reply_message.text
+    match = match.match(/\bhttps?:\/\/\S+/gi)[0]
+    var quoted = message.reply_message ? message.quoted : message.data;
+    if (match.includes("images.app.goo")) match = await extractGoogleImage(match) 
+    await message.client.sendMessage(message.jid,{image:{url:match}},{quoted});
 }));
 Module({
     pattern: 'video ?(.*)',
