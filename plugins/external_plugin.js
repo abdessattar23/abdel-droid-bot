@@ -63,7 +63,7 @@ Module({
 }, (async (message, match) => {
     var plugins = await Db.PluginDB.findAll();
     if (match[1] !== '') {
-        var plugin = plugins.filter(_plugin => _plugin.dataValues.name == match[1])
+        var plugin = plugins.filter(_plugin => _plugin.dataValues.name === match[1])
         try {
             await message.sendReply(plugin.dataValues.name + ": " + plugin.dataValues.url);
         } catch {
