@@ -284,7 +284,7 @@ Module({
     on: 'button',
     fromMe: true
 }, (async (message) => {
-    if (message.button && message.button.startsWith("Restart") && message.button.includes(message.myjid)) {
+    if (message.button && message.button.startsWith("restart") && message.button.includes(message.myjid)) {
         await message.sendReply("_Restarting_")
         await heroku.delete(baseURI + '/dynos').catch(async (error) => {
         await message.sendMessage(error.message)

@@ -103,7 +103,7 @@ Module({
         await plugin[0].destroy();
         delete require.cache[require.resolve('./' + match[1] + '.js')]
         fs.unlinkSync('./plugins/' + match[1] + '.js');
-    const buttons = [{buttonId: 'restart '+message.myid, buttonText: {displayText: 'Restart'}, type: 1}]
+    const buttons = [{buttonId: 'restart '+message.myjid, buttonText: {displayText: 'Restart'}, type: 1}]
           
           const buttonMessage = {
               text: Lang.DELETED.format(match[1]),
