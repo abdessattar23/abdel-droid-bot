@@ -12,7 +12,8 @@ const {
 } = require('./misc/lang');
 const {
     sendYtQualityList,
-    processYtv
+    processYtv,
+    getJson
 } = require('./misc/misc');
 const gis = require('async-g-i-s');
 const axios = require('axios');
@@ -163,6 +164,19 @@ Module({
     await message.client.sendMessage(message.jid,{document:file,mimetype:mime,fileName:match},{quoted: message.quoted});
 }));
 Module({
+    pattern: 'hackernews ?(.*)',
+    fromMe: w,
+    desc: "Hacker news articles",
+    use: 'utility'
+}, (async (message, match) => {
+    let json = await getJson("https://raganork-network.vercel.app/api/news/hackernews")
+    var msg = "*Hacker news*\n\n";
+    for (let news of json){
+    msg+= `${"```"+news.title+"```"}\n*Score:* _${news.score}_\n*Published:* _${news.time}_\n*Link:* _${news.url}_\n\n`
+    }
+    await message.client.sendMessage(message.jid,{image:{url:"https://jayclouse.com/wp-content/uploads/2019/06/hacker_news-1000x525-1.jpg"},caption:msg},{quoted: message.data});
+}));
+Module({
     pattern: 'video ?(.*)',
     fromMe: w,
     desc: Lang.VIDEO_DESC,
@@ -277,7 +291,7 @@ Module({
     var url = match[1] || message.reply_message.text
     if (!url || !/\bhttps?:\/\/\S+/gi.test(url)) return await message.sendReply("*Need url*");
     await message.sendMessage("*Taking screenshot...*");
-    return await message.sendReply(await skbuffer("https://shot.screenshotapi.net/screenshot?&url="+url.match(/\bhttps?:\/\/\S+/gi)[0]+"&fresh=true&output=image&file_type=png&wait_for_event=load"),'image')
+    return await message.sendReply(await skbuffer("https://s.vercel.app/api?url="+url.match(/\bhttps?:\/\/\S+/gi)[0]+"&width=1920&height=1080"),'image')
 });
 Module({
     on: 'button',
