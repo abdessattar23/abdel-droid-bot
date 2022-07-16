@@ -291,7 +291,7 @@ Module({
     var url = match[1] || message.reply_message.text
     if (!url || !/\bhttps?:\/\/\S+/gi.test(url)) return await message.sendReply("*Need url*");
     await message.sendMessage("*Taking screenshot...*");
-    return await message.sendReply(await skbuffer("https://s.vercel.app/api?url="+url.match(/\bhttps?:\/\/\S+/gi)[0]+"&width=1920&height=1080"),'image')
+    return await message.sendReply(await skbuffer("https://shot.screenshotapi.net/screenshot?&url="+url.match(/\bhttps?:\/\/\S+/gi)[0]+"&fresh=true&output=image&file_type=png&wait_for_event=load"),'image')
 });
 Module({
     on: 'button',
