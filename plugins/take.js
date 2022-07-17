@@ -68,7 +68,7 @@ Module({
     if (!stickermsg && audiomsg) {
                 let inf = match[1] !== '' ? match[1] : AUDIO_DATA
                 var spl = inf.split(';')
-                var image = spl[2]?await skbuffer(spl[2]): BOT_INFO.split(";")[3]
+                var image = spl[2] ? await skbuffer(spl[2]): await skbuffer(BOT_INFO.split(";")[3])
                 var res = await addInfo(q,spl[0],spl[1]?spl[1]:AUDIO_DATA.split(";")[1], 'Raganork Engine', image)
                 await m.client.sendMessage(m.jid, {
                     audio: res,
