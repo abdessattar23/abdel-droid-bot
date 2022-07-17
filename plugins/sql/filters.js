@@ -34,7 +34,7 @@ async function getFilter(jid = null, filter = null) {
         where: Wher
     });
 
-    if (Msg.length < 1) {
+    if (Msg.length === 0) {
         return false;
     } else {
         return Msg;
@@ -50,7 +50,7 @@ async function setFilter(jid = null, filter = null, tex = null, regx = false) {
         }
     });
 
-    if (Msg.length < 1) {
+    if (Msg.length === 0) {
         return await FiltersDB.create({ chat: jid, pattern: filter, text: tex, regex: regx });
     } else {
         return await Msg[0].update({ chat: jid, pattern: filter, text: tex, regex: regx });
@@ -64,7 +64,7 @@ async function deleteFilter(jid = null, filter) {
             pattern: filter
         }
     });
-    if (Msg.length < 1) {
+    if (Msg.length === 0) {
         return false;
     } else {
         return await Msg[0].destroy();
