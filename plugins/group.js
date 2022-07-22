@@ -247,16 +247,16 @@ Module({
     use: 'group'
 }, (async (message, match) => {
     if (!message.jid.endsWith('@g.us')) return await message.sendMessage(Lang.GROUP_COMMAND)
-    var group = await message.client.groupMetadata(message.jid)
+    var {participants} = await message.client.groupMetadata(message.jid)
     var jids = [];
     var mn = '';
-    group.participants.map(async (user) => {
-        mn += '@' + user.id.split('@')[0] + '\n';
-        jids.push(user.id.replace('c.us', 's.whatsapp.net'));
-    });
+    for (var i in participants){
+    mn += (parseInt(i)+1)+'. @' + participants[i].id.split('@')[0] + '\n';
+        jids.push(participants[i].id.replace('c.us', 's.whatsapp.net'));
+    };
     var msg = mn
     await message.client.sendMessage(message.jid, {
-        text: msg,
+        text: '```'+msg+'```',
         mentions: jids
     })
 }))
