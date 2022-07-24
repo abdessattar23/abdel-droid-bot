@@ -10,7 +10,7 @@ module.exports = {
     VERSION: 'V 2.0.1',
     ALIVE: process.env.ALIVE || "https://i.imgur.com/KCnoMM2.jpg Hey {sender}, I'm alive \n Uptime: {uptime}",
     BLOCK_CHAT: process.env.BLOCK_CHAT || '',
-    ALWAYS_ONLINE: convertToBool(process.env.ALWAYS_ONLINE) || true,
+    ALWAYS_ONLINE: convertToBool(process.env.ALWAYS_ONLINE) || false,
     READ_MESSAGES: convertToBool(process.env.READ_MESSAGES) || false,
     PMB_VAR: convertToBool(process.env.PMB_VAR) || false,
     PMB: process.env.PMB || '*Personal messages not allowed. Blocking you!*',
