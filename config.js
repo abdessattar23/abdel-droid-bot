@@ -13,6 +13,7 @@ module.exports = {
     ALWAYS_ONLINE: convertToBool(process.env.ALWAYS_ONLINE) || false,
     READ_MESSAGES: convertToBool(process.env.READ_MESSAGES) || false,
     PMB_VAR: convertToBool(process.env.PMB_VAR) || false,
+    DIS_PM: convertToBool(process.env.DIS_PM) || false,
     PMB: process.env.PMB || '*Personal messages not allowed. Blocking you!*',
     READ_COMMAND: convertToBool(process.env.READ_COMMAND) || true,
     USERNAME: process.env.USERNAME || '',
