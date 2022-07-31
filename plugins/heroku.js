@@ -100,10 +100,10 @@ Module({
             percentage = Math.round((quota_used / total_quota) * 100);
             remaining = total_quota - quota_used;
             await message.sendReply(
-                "Total: ```{}```\n\n".format(secondsToDhms(total_quota)) +
-                "Used: ```{}```\n".format(secondsToDhms(quota_used)) +
-                "Percent: ```{}```\n\n".format(percentage) +
-                "Remaining: ```{}```\n".format(secondsToDhms(remaining)))
+                "_Total: *{}*_\n".format(secondsToDhms(total_quota)) +
+                "_Used: *{}*_\n".format(secondsToDhms(quota_used)) +
+                "_Percent: *{}*_\n".format(percentage) +
+                "_Remaining: *{}*_\n".format(secondsToDhms(remaining)))
 
         }).catch(async (err) => {
             await message.sendMessage(error.message)
