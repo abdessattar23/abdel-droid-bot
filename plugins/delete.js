@@ -6,10 +6,18 @@ Raganork MD - Sourav KL11
 const {
     Module
 } = require('../main');
+const {isAdmin} = require("./misc/misc")
 Module({
     pattern: 'del',
     fromMe: true,
-    desc: 'deletes message'
+    desc: 'Deletes message for everyone. Supports admin deletion'
 }, (async (m, t) => {
-    await m.client.sendMessage(m.jid, { delete: { remoteJid: m.jid, fromMe: true, id: m.reply_message.id, participant: m.reply_message.jid } })
+    var fromMe = m.reply_message.jid === m.myjid+"@s.whatsapp.net"?true:false
+    var key = { remoteJid: m.jid, fromMe: fromMe, id: m.reply_message.id, participant: m.reply_message.jid }
+    if (fromMe) return await m.client.sendMessage(m.jid, { delete: key })
+    if (!fromMe) {
+    var admin = await isAdmin(m);
+    if (!admin) return await m.sendReply("_I'm not an admin!_")
+    return await m.client.sendMessage(m.jid, { delete: key })
+    }
 }));
