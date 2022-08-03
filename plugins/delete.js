@@ -12,7 +12,7 @@ Module({
     fromMe: true,
     desc: 'Deletes message for everyone. Supports admin deletion'
 }, (async (m, t) => {
-    if (!m.reply_message) return await m.sendReply("_Reply to any message!_");
+    if (!m.reply_message || !m.jid.endsWith("s")) return;
     var fromMe = m.reply_message.jid === m.myjid+"@s.whatsapp.net"?true:false
     var key = { remoteJid: m.jid, fromMe: fromMe, id: m.reply_message.id, participant: m.reply_message.jid }
     if (fromMe) return await m.client.sendMessage(m.jid, { delete: key })

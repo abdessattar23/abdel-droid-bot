@@ -125,11 +125,23 @@ Module({
     pattern: 'mute',
     use: 'group',
     fromMe: true,
-    desc: Lang.MUTE_DESC
+    desc: Lang.MUTE_DESC,
+    usage:'mute 1h\nmute 5m'
 }, (async (message, match) => {
     if (!message.jid.endsWith('@g.us')) return await message.sendMessage(Lang.GROUP_COMMAND)
     var admin = await isAdmin(message);
     if (!admin) return await message.sendReply(Lang.NOT_ADMIN)
+    if (match[1]){
+    const h2m = function(h){console.log(1000*60*60*h)}
+    const m2m = function(m){console.log(1000*60*m)}
+    let duration = match[1].endsWith("h") ? h2m(match[1].match(/\d+/)[0]) : m2m(match[1].match(/\d+/)[0])
+    match = match[1].endsWith("h") ? match[1]+'ours' : match[1]+'ins'
+    await message.client.groupSettingUpdate(message.jid, 'announcement')
+    await message.sendMessage(`_Muted for ${match}_`)
+    await require("timers/promises").setTimeout(duration);
+    return await message.client.groupSettingUpdate(message.jid, 'not_announcement')
+    await message.sendMessage(Lang.UNMUTED)    
+}
     await message.client.groupSettingUpdate(message.jid, 'announcement')
     await message.sendMessage(Lang.MUTED)
 }))
