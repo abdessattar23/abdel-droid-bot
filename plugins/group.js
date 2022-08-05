@@ -105,6 +105,25 @@ Module({
     return await message.client.groupLeave(message.jid);
 }))
 Module({
+    pattern: 'quoted',
+    fromMe: true
+}, (async (message, match) => {
+    try {
+    var msg = await message.client.store.toJSON()?.messages[message.jid]?.toJSON().filter(e=>e.key.id===message.reply_message.id)
+    var quoted = msg[0].message[Object.keys(msg[0].message)].contextInfo;
+    var obj = {
+        key: {
+          remoteJid: message.jid,
+          fromMe: true,
+          id: quoted.stanzaId,
+          participant: quoted.participant
+        },
+        message: quoted.quotedMessage
+      }
+    return await message.forwardMessage(message.jid,obj);
+    } catch { return await message.sendReply("_Failed to load message!_") }
+}))
+Module({
     pattern: 'demote ?(.*)',
     fromMe: true,
     use: 'group',

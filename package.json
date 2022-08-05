@@ -1,40 +1,27 @@
 {
-  "name": "raganork", 
-  "version": "2.0.1",
+  "name": "raganork-md",
+  "version": "3.0.0",
   "description": "Raganork whatsapp bot- Multi device version.",
-  "main": "./Raganork/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "supervisor -s index.js"
+    "start": "pm2 start index.js --attach"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/souravkl11/raganork-md.git"
-  },
-  "keywords": [
-    "whatsapp",
-    "bot",
-    "multi-device"
-  ],
-  "author": "Sourav",
-  "developer": "@souravkl11",
-  "license": "GPL-3.0-or-later",
-  "bugs": {
-    "url": "https://github.com/souravkl11/raganork/issues"
-  },
-  "homepage": "https://github.com/souravkl11/raganork#readme",
+  "author": "souravkl11",
+  "license": "ISC",
   "dependencies": {
-    "@adiwajshing/baileys": "4.1.0",
-    "@adiwajshing/keyed-db":"0.2.4",
-    "acrcloud":"1.4.0",
-    "string-crypto": "2.0.2",
-    "link-preview-js":"2.1.15",
-    "mongodb": "^4.3.1",
-    "node-webpmux": "^3.1.0",
-    "node-cron": "3.0.1",
+    "@adiwajshing/baileys": "git+https://github.com/adiwajshing/Baileys.git",
+    "@adiwajshing/keyed-db": "^0.2.4",
+    "acrcloud": "1.4.0",
     "async-g-i-s": "1.0.0",
+    "link-preview-js": "2.1.15",
+    "mongodb": "^4.3.1",
+    "node-cron": "3.0.1",
+    "node-webpmux": "^3.1.0",
+    "pm2": "^5.2.0",
+    "qrcode-terminal": "^0.12.0",
     "raganork-bot": "2.0.7",
-    "sequelize": "^6.13.0",
+    "sequelize": "^6.21.3",
     "sqlite3": "^5.0.0",
-    "supervisor": "^0.12.0"
-     }
+    "string-crypto": "2.0.2"
+  }
 }
