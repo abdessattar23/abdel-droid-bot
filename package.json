@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/souravkl11/raganork#readme",
   "dependencies": {
-    "@adiwajshing/baileys": "git+https://github.com/adiwajshing/Baileys.git",
+    "@adiwajshing/baileys": "adiwajshing/baileys",
     "@adiwajshing/keyed-db":"0.2.4",
     "acrcloud":"1.4.0",
     "string-crypto": "2.0.2",
@@ -32,6 +32,7 @@
     "node-webpmux": "^3.1.0",
     "node-cron": "3.0.1",
     "async-g-i-s": "1.0.0",
+    "raganork-bot": "2.0.7",
     "sequelize": "^6.13.0",
     "sqlite3": "^5.0.0",
     "pm2": "^5.2.0"
