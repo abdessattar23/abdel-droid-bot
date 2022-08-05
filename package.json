@@ -4,7 +4,7 @@
   "description": "Raganork whatsapp bot- Multi device version.",
   "main": "./Raganork/index.js",
   "scripts": {
-    "start": "pm2 start index.js --attach"
+    "start": "supervisor -s index.js"
   },
   "repository": {
     "type": "git",
@@ -35,6 +35,6 @@
     "raganork-bot": "2.0.7",
     "sequelize": "^6.13.0",
     "sqlite3": "^5.0.0",
-    "pm2": "^5.2.0"
-     }
+    "supervisor": "^0.12.0"  
+  }
 }
