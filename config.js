@@ -16,7 +16,7 @@ module.exports = {
     DIS_PM: convertToBool(process.env.DIS_PM) || false,
     PMB: process.env.PMB || '*Personal messages not allowed. Blocking you!*',
     READ_COMMAND: convertToBool(process.env.READ_COMMAND) || true,
-    SESSION: process.env.SESSION || 'Raganork~96381b3cf8716c80e34870882ca97953:7454424569356a676970593d',
+    SESSION: process.env.SESSION || '',
     IMGBB_KEY: ["76a050f031972d9f27e329d767dd988f","deb80cd12ababea1c9b9a8ad6ce3fab2","78c84c62b32a88e86daf87dd509a657a"],
     RG: process.env.RG || '919074309534-1632403322@g.us',
     BOT_INFO: process.env.BOT_INFO || 'Raganork;Souravkl11;916282344739;https://i.imgur.com/st4R2dq.jpeg;https://chat.whatsapp.com/Dt3C4wrQmt0GG6io1IBIHb',
