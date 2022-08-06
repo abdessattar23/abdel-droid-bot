@@ -24,7 +24,7 @@ Module({
     var mss = '';
     if (commits.total === 0) {
         mss = "*Bot up to date!*"
-        var buttons = []
+        return await message.sendReply(mss);
     } else {
         var changelog = "_Pending updates:_\n\n";
         for (var i in commits.all){

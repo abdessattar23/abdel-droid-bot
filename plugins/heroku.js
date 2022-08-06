@@ -5,7 +5,7 @@ Raganork MD - Sourav KL11
 */
 async function sendButton(buttons,text,footer,message){
     const buttonMessage = {text,footer,buttons,headerType: 1}
-    return await message.client.sendMessage(id, buttonMessage)
+    return await message.client.sendMessage(message.jid, buttonMessage)
     };
     const {
         Module
