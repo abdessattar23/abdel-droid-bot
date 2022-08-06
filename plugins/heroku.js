@@ -32,7 +32,7 @@ async function sendButton(buttons,text,footer,message){
     const heroku = new Heroku({
         token: Config.HEROKU.API_KEY
     });
-    var handler = Config.HANDLERS !== 'false'?HANDLERS.split("")[0]:""
+    var handler = Config.HANDLERS !== 'false'?Config.HANDLERS.split("")[0]:""
     function secondsToDhms(seconds) {
         seconds = Number(seconds);
         var d = Math.floor(seconds / (3600*24));
