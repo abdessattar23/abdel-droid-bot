@@ -213,7 +213,7 @@ async function sendButton(buttons,text,footer,message){
             {buttonId: handler+'chatbot button_on', buttonText: {displayText: 'ON'}, type: 1},
             {buttonId: handler+'chatbot button_off', buttonText: {displayText: 'OFF'}, type: 1}
         ]
-        return await message.sendButton(buttons,"*ChatBot control panel*","Chatbot is currently turned "+CHATBOT+" now",message)
+        return await sendButton(buttons,"*ChatBot control panel*","Chatbot is currently turned "+CHATBOT+" now",message)
         }
         await message.sendReply(match[1].endsWith("n")? "*Chatbot activated ✅*" : "*Chatbot de-activated ✅*");
         await heroku.patch(baseURI + '/config-vars', {
@@ -232,7 +232,7 @@ async function sendButton(buttons,text,footer,message){
             {buttonId: handler+'setvar MODE:public', buttonText: {displayText: 'PUBLIC'}, type: 1},
             {buttonId: handler+'setvar MODE:private', buttonText: {displayText: 'PRIVATE'}, type: 1}
         ]
-        return await message.sendButton(buttons,"*Working mode control panel*","Bot is currently running on "+Config.MODE+" mode now",message)
+        return await sendButton(buttons,"*Working mode control panel*","Bot is currently running on "+Config.MODE+" mode now",message)
     }));
     Module({
         pattern: 'antilink',
@@ -251,7 +251,7 @@ async function sendButton(buttons,text,footer,message){
             {buttonId: handler+'antilink button_off', buttonText: {displayText: 'OFF'}, type: 1}
         ]
         var status = jids.includes(message.jid) ? 'on' : 'off';
-        return await message.sendButton(buttons,`*Antilink control panel of ${message.jid}*`,"Antilink is currently turned "+status+" here",message)
+        return await sendButton(buttons,`*Antilink control panel of ${message.jid}*`,"Antilink is currently turned "+status+" here",message)
         }
         await message.sendReply(match[1].endsWith("n")? "*Antilink activated ✅*" : "*Antilink de-activated ✅*");
         if (match[1].split("_")[1]==="on"){
