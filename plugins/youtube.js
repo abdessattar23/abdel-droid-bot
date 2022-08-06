@@ -47,8 +47,8 @@ Module({
   if (link !== null && getID.test(link[0])) {
     var {
       thumbnail,title,size,url
-  } = await downloadYT(message.list.split(";")[1],'audio');
-  await message.sendImageTemplate({url: thumbnail},`*Downloading:* _${title}_`,`Size: ${size}`,[])
+  } = await downloadYT(link[0],'audio');
+  await message.sendReply(`*Downloading:* _${title}_`)
   // Method 1: Via y2mate
   if (url!== "http://app.y2mate.com/download"){
   await fs.writeFileSync('./song.mp3',await skbuffer(url))
@@ -61,7 +61,7 @@ Module({
   });  
 }
   // Method 2: Direct Download from YT
-  var song = await getSong(message.list.split(";")[1]);
+  var song = await getSong(link[0]);
   ffmpeg(song)
  .save('./song.mp3')
  .on('end', async () => {
