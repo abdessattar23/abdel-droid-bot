@@ -13,6 +13,7 @@ const Heroku = require('heroku-client');
 const { PassThrough } = require('stream');
 const heroku = new Heroku({ token: Config.HEROKU.API_KEY })
 const { skbuffer } = require('raganork-bot');
+var handler = Config.HANDLERS !== 'false'?Config.HANDLERS.split("")[0]:"";
 Module({
     pattern: 'update',
     fromMe: true,
@@ -31,7 +32,7 @@ Module({
         changelog += `${(parseInt(i)+1)}• *${commits.all[i].message}*\n`
     }
         mss = changelog;
-        var buttons = [{buttonId: 'updt', buttonText: {displayText: 'START UPDATE'}, type: 1}]
+        var buttons = [{buttonId: handler+'updt', buttonText: {displayText: 'START UPDATE'}, type: 1}]
     }
           const buttonMessage = {
               text: mss,
