@@ -245,6 +245,14 @@ async function sendButton(buttons,text,footer,message){
         db.map(data => {
             jids.push(data.jid)
         });
+        if (match[1].endsWith("on")){
+            if (!(await isAdmin(message))) return await message.sendReply("_I'm not an admin!_")
+            await setAntilink(message.jid) 
+        }
+        if (match[1].endsWith("off")){
+            if (!(await isAdmin(message))) return await message.sendReply("_I'm not an admin!_")
+            await delAntilink(message.jid)  
+        }
         if (match[1]!=="button_on" && match[1]!=="button_off"){
         const buttons = [
             {buttonId: handler+'antilink button_on', buttonText: {displayText: 'ON'}, type: 1},
@@ -254,14 +262,6 @@ async function sendButton(buttons,text,footer,message){
         return await sendButton(buttons,`*Antilink control panel of ${message.jid}*`,"Antilink is currently turned "+status+" here",message)
         }
         await message.sendReply(match[1].endsWith("n")? "*Antilink activated ✅*" : "*Antilink de-activated ✅*");
-        if (match[1].split("_")[1]==="on"){
-            if (!(await isAdmin(message))) return await message.sendReply("_I'm not an admin!_")
-            await setAntilink(message.jid) 
-        }
-        if (match[1].split("_")[1]==="on"){
-            if (!(await isAdmin(message))) return await message.sendReply("_I'm not an admin!_")
-            await delAntilink(message.jid)  
-        }
     }));
     Module({
         on: 'text',

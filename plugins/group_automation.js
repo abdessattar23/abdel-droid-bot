@@ -25,8 +25,11 @@ const {
     Module
 } = require('../main')
 const {
-    ALLOWED
+    ALLOWED,
+    HANDLERS
 } = require('../config');
+var handler = HANDLERS !== 'false'? HANDLERS.split("")[0]:""
+
 function tConvert(time) {
   time = time.toString ().match (/^([01]\d|2[0-3])( )([0-5]\d)(:[0-5]\d)?$/) || [time];
  if (time.length > 1) { 
@@ -153,65 +156,25 @@ Module({
 }, async (message, match) => {
 var admin = await isAdmin(message)
 if (!admin) return await message.sendReply("*I'm not admin*");
-var {
-        subject,
-        owner
-    } = await message.client.groupMetadata(message.jid)
-    var myid = message.client.user.id.split(":")[0]
-    owner = owner || myid + "@s.whatsapp.net"
-    const templateButtons = [{
-            index: 1,
-            urlButton: {
-                displayText: 'WIKI',
-                url: 'https://github.com/souravkl11/raganork-md/wiki/Docs'
-            }
-        },
-        {
-            index: 2,
-            quickReplyButton: {
-                displayText: 'ENABLE',
-                id: 'fake_on' + myid
-            }
-        },
-        {
-            index: 3,
-            quickReplyButton: {
-                displayText: 'DISABLE',
-                id: 'fake_off' + myid
-            }
-        },
-        {
-            index: 4,
-            quickReplyButton: {
-                displayText: 'ALLOWED PREFIXES',
-                id: 'fake_get' + myid
-            }
-        },
-    ]
-
-    const templateMessage = {
-        text: "*Antifake menu of* " + subject,
-        footer: '',
-        templateButtons: templateButtons
-    }
-    await message.client.sendMessage(message.jid, templateMessage)
-})
-Module({
-    on: "button",
-    fromMe: true
-}, async (message, match) => {
-    if (message.button && message.button.startsWith("fake_on") && message.button.includes(message.client.user.id.split(":")[0])) {
-        await setAntifake(message.jid);
-        return await message.sendMessage("Antifake enabled ✅")
-    }
-    if (message.button && message.button.startsWith("fake_off") && message.button.includes(message.client.user.id.split(":")[0])) {
-        await delAntifake(message.jid);
-        return await message.sendMessage("Antifake disabled ✅")
-    }
-    if (message.button && message.button.startsWith("fake_get") && message.button.includes(message.client.user.id.split(":")[0])) {
-        return await message.sendMessage("Allowed prefixes: " + ALLOWED)
-    }
-})
+if (match[1]==='on'){
+    await setAntifake(message.jid);
+    return await message.sendMessage("_Antifake enabled!_")
+}
+if (match[1]==='off'){
+    await delAntifake(message.jid);
+    return await message.sendMessage("_Antifake disabled!_")
+}
+const buttons = [{buttonId: handler+'antifake on', buttonText: {displayText: 'ON'}, type: 1},
+                {buttonId: handler+'antifake off '+message.myjid, buttonText: {displayText: 'OFF'}, type: 1},
+                {buttonId: handler+'getvar ALLOWED'+message.myjid, buttonText: {displayText: 'ALLOWED PREFIXES'}, type: 1}]
+          const buttonMessage = {
+              text: "*Antifake control panel of "+message.jid+"*",
+              footer: '',
+              buttons: buttons,
+              headerType: 1
+          }
+        await message.client.sendMessage(message.jid,buttonMessage)
+    })
 Module({
     on: "group_update",
     fromMe: false
