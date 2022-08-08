@@ -41,7 +41,7 @@ Module({
     use: 'edit',
     desc: 'Changes sticker/audio pack & author name. Title, artist, thumbnail etc.'
 }, (async (m, match) => {
-    if (!m.reply_message.data.quotedMessage) return await m.sendMessage('_Reply to an audio or a sticker_')
+    if (!m.reply_message) return await m.sendMessage('_Reply to an audio or a sticker_')
     var audiomsg = m.reply_message.audio;
     var stickermsg = m.reply_message.sticker;
     var q = await saveMessage(m.reply_message);
