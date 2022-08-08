@@ -44,7 +44,7 @@ Module({
     if (!m.reply_message) return await m.sendMessage('_Reply to an audio or a sticker_')
     var audiomsg = m.reply_message.audio;
     var stickermsg = m.reply_message.sticker;
-    var q = await saveMessage(m.reply_message);
+    var q = await m.reply_message.download();
     if (stickermsg) {
         if (match[1]!=="") {
         var exif = {
@@ -90,7 +90,7 @@ Module({
     desc: 'Converts animated sticker to video'
 }, (async (m, t) => {
     if (m.reply_message.sticker) {
-        var q = await saveMessage(m.reply_message);
+        var q = m.reply_message.download();
         try {
             var result = await webp2mp4(q)
         } catch {
