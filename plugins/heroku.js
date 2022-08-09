@@ -213,7 +213,7 @@ async function sendButton(buttons,text,footer,message){
             {buttonId: handler+'chatbot button_on', buttonText: {displayText: 'ON'}, type: 1},
             {buttonId: handler+'chatbot button_off', buttonText: {displayText: 'OFF'}, type: 1}
         ]
-        return await sendButton(buttons,"*ChatBot control panel*","Chatbot is currently turned "+CHATBOT+" now",message)
+        return await sendButton(buttons,"*ChatBot control panel*","Chatbot is currently turned "+Config.CHATBOT+" now",message)
         }
         await message.sendReply(match[1].endsWith("n")? "*Chatbot activated ✅*" : "*Chatbot de-activated ✅*");
         await heroku.patch(baseURI + '/config-vars', {
@@ -245,15 +245,15 @@ async function sendButton(buttons,text,footer,message){
         db.map(data => {
             jids.push(data.jid)
         });
-        if (match[1].endsWith("on")){
+        if (match[1].includes("button_off")){
             if (!(await isAdmin(message))) return await message.sendReply("_I'm not an admin!_")
             await setAntilink(message.jid) 
         }
-        if (match[1].endsWith("off")){
+        if (match[1].includes("button_off")){
             if (!(await isAdmin(message))) return await message.sendReply("_I'm not an admin!_")
             await delAntilink(message.jid)  
         }
-        if (match[1]!=="button_on" && match[1]!=="button_off"){
+        if (!match[1].includes("button_on") && match[1].includes("button_off")){
         const buttons = [
             {buttonId: handler+'antilink button_on', buttonText: {displayText: 'ON'}, type: 1},
             {buttonId: handler+'antilink button_off', buttonText: {displayText: 'OFF'}, type: 1}

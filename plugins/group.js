@@ -109,7 +109,7 @@ Module({
     fromMe: true
 }, (async (message, match) => {
     try {
-    var msg = await message.client.store.toJSON()?.messages[message.jid]?.toJSON().filter(e=>e.key.id===message.reply_message.id)
+    var msg = (await message.client.getMessages(message.jid)).filter(e=>e.key.id===message.reply_message.id)
     var quoted = msg[0].message[Object.keys(msg[0].message)].contextInfo;
     var obj = {
         key: {

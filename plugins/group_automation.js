@@ -156,11 +156,11 @@ Module({
 }, async (message, match) => {
 var admin = await isAdmin(message)
 if (!admin) return await message.sendReply("*I'm not admin*");
-if (match[1]==='on'){
+if (match[1].includes("on")){
     await setAntifake(message.jid);
     return await message.sendMessage("_Antifake enabled!_")
 }
-if (match[1]==='off'){
+if (match[1].includes("off")){
     await delAntifake(message.jid);
     return await message.sendMessage("_Antifake disabled!_")
 }
