@@ -156,17 +156,17 @@ Module({
 }, async (message, match) => {
 var admin = await isAdmin(message)
 if (!admin) return await message.sendReply("*I'm not admin*");
-if (match[1].includes("on")){
+if (match[1] == "on"){
     await setAntifake(message.jid);
     return await message.sendMessage("_Antifake enabled!_")
 }
-if (match[1].includes("off")){
+if (match[1] == "off"){
     await delAntifake(message.jid);
     return await message.sendMessage("_Antifake disabled!_")
 }
 const buttons = [{buttonId: handler+'antifake on', buttonText: {displayText: 'ON'}, type: 1},
-                {buttonId: handler+'antifake off '+message.myjid, buttonText: {displayText: 'OFF'}, type: 1},
-                {buttonId: handler+'getvar ALLOWED'+message.myjid, buttonText: {displayText: 'ALLOWED PREFIXES'}, type: 1}]
+                {buttonId: handler+'antifake off ', buttonText: {displayText: 'OFF'}, type: 1},
+                {buttonId: handler+'getvar ALLOWED', buttonText: {displayText: 'ALLOWED PREFIXES'}, type: 1}]
           const buttonMessage = {
               text: "*Antifake control panel of "+message.jid+"*",
               footer: '',
