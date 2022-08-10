@@ -261,7 +261,7 @@ async function sendButton(buttons,text,footer,message){
         var status = jids.includes(message.jid) ? 'on' : 'off';
         return await sendButton(buttons,`*Antilink control panel of ${message.jid}*`,"Antilink is currently turned "+status+" here",message)
         }
-        await message.sendReply(match[1].endsWith("n")? "_Antilink activated!_" : "_Antilink de-activated!_");
+        await message.sendReply(match[1] === "button_on" ? "_Antilink activated!_" : "_Antilink deactivated!_");
     }));
     Module({
         on: 'text',
