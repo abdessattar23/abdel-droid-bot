@@ -165,7 +165,7 @@ if (match[1] === "off"){
     return await message.sendMessage("_Antifake disabled!_")
 }
 const buttons = [{buttonId: handler+'antifake on', buttonText: {displayText: 'ON'}, type: 1},
-                {buttonId: handler+'antifake off ', buttonText: {displayText: 'OFF'}, type: 1},
+                {buttonId: handler+'antifake off', buttonText: {displayText: 'OFF'}, type: 1},
                 {buttonId: handler+'getvar ALLOWED', buttonText: {displayText: 'ALLOWED PREFIXES'}, type: 1}]
           const buttonMessage = {
               text: "*Antifake control panel of "+message.jid+"*",
