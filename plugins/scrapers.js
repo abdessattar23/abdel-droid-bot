@@ -243,7 +243,7 @@ Module({
                 id: 'nws_mt '+message.myjid
             }
         }, {
-            quickReplyButton: {
+            quickReplyButton: { 
                 displayText: 'Manorama News',
                 id: 'nws_ma '+message.myjid
             }  
