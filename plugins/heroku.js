@@ -223,7 +223,7 @@ async function sendButton(buttons,text,footer,message){
         });
     }));
     Module({
-        pattern: 'mode',
+        pattern: 'mode ?(.*)',
         fromMe: true,
         desc: "Change bot mode to public & private",
         use: 'config'
@@ -235,7 +235,7 @@ async function sendButton(buttons,text,footer,message){
         return await sendButton(buttons,"*Working mode control panel*","Bot is currently running on "+Config.MODE+" mode now",message)
     }));
     Module({
-        pattern: 'antilink',
+        pattern: 'antilink ?(.*)',
         fromMe: true,
         desc: "Activates antilink",
         use: 'config'
@@ -245,11 +245,11 @@ async function sendButton(buttons,text,footer,message){
         db.map(data => {
             jids.push(data.jid)
         });
-        if (match[1].includes("button_off")){
+        if (match[1] === "button_off"){
             if (!(await isAdmin(message))) return await message.sendReply("_I'm not an admin!_")
             await setAntilink(message.jid) 
         }
-        if (match[1].includes("button_off")){
+        if (match[1] === "button_off"){
             if (!(await isAdmin(message))) return await message.sendReply("_I'm not an admin!_")
             await delAntilink(message.jid)  
         }

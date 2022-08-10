@@ -5,8 +5,10 @@ Raganork MD - Sourav KL11
 */
 const googleTTS = require('google-translate-tts');
 const {
-    MODE
+    MODE,
+    HANDLERS
 } = require('../config');
+var handler = HANDLERS !== 'false'?HANDLERS.split("")[0]:"";
 const {
     getString
 } = require('./misc/lang');
@@ -176,6 +178,31 @@ Module({
     }
     await message.client.sendMessage(message.jid,{image:{url:"https://jayclouse.com/wp-content/uploads/2019/06/hacker_news-1000x525-1.jpg"},caption:msg},{quoted: message.data});
 }));
+Module({
+    pattern: 'waupdate ?(.*)',
+    fromMe: w,
+    desc: "Upcoming whatsapp update news",
+    use: 'utility'
+}, (async (message, match) => {
+    if (match[1]){
+        try { var result = await getJson(`https://raganork-network.vercel.app/api/wabetainfo?url=${match[1]}`); } catch {return await message.sendReply("_Not found!_")}
+        await message.client.sendMessage(message.jid,{image:{url:result.image},caption:'```'+result.title+'```'},{quoted: message.data});
+    }
+    var news = [];
+    var result = await getJson(`https://raganork-network.vercel.app/api/wabetainfo`);
+    for (var i in result) {
+    news.push({title: result[i].title,rowId:handler+"waupdate "+result[i].url});
+    }
+    const sections = [{title: "Browse these articles",rows: news}];
+    const listMessage = {
+        footer: "_Latest updates from WaBetaInfo_",
+        text:"",
+        title: `*${result[0].title?.trim()}*`,
+        buttonText: "See more",
+        sections
+    }
+    return await message.client.sendMessage(message.jid, listMessage,{quoted: message.data})
+ }));
 Module({
     pattern: 'video ?(.*)',
     fromMe: w,
