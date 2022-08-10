@@ -196,7 +196,7 @@ Module({
     const sections = [{title: "Browse these articles",rows: news}];
     const listMessage = {
         footer: "_Latest updates from WaBetaInfo_",
-        text:"",
+        text:" ",
         title: `*${result[0].title?.trim()}*`,
         buttonText: "See more",
         sections
@@ -254,7 +254,7 @@ Module({
             }  
         }
 ]
-       return await message.sendImageTemplate(await skbuffer("https://mplan.media/wp-content/uploads/2018/03/malayalam-news.png"),"*Select a news provider!*","_We are no way affiliated with any news providers!_",buttons);
+       return await message.sendImageTemplate(await skbuffer("https://mplan.media/wp-content/uploads/2018/03/malayalam-news.png"),"*Select a news provider!*","We are no way affiliated with any news providers!",buttons);
     }
 if (match[1].toLowerCase() === "india") {
     var news = [];
