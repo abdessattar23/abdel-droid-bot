@@ -186,7 +186,7 @@ Module({
 }, (async (message, match) => {
     if (match[1].startsWith("https")){
         try { var result = await getJson(`https://raganork-network.vercel.app/api/wabetainfo?url=${match[1]}`); } catch {return await message.sendReply("_Not found!_")}
-        await message.client.sendMessage(message.jid,{image:{url:result.image},caption:'```'+result.title+'```'},{quoted: message.data});
+        return await message.client.sendMessage(message.jid,{image:{url:result.image},caption:'```'+result.title+'```'},{quoted: message.data});
     }
     var news = [];
     var result = await getJson(`https://raganork-network.vercel.app/api/wabetainfo`);
