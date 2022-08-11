@@ -16,7 +16,7 @@ module.exports = {
     READ_MESSAGES: convertToBool(process.env.READ_MESSAGES) || false,
     PMB_VAR: convertToBool(process.env.PMB_VAR) || false,
     DIS_PM: convertToBool(process.env.DIS_PM) || false,
-    REJECT_CALL: convertToBool(process.env.REJECT_CALLS) || false,
+    REJECT_CALLS: convertToBool(process.env.REJECT_CALLS) || false,
     PMB: process.env.PMB || '*Personal messages not allowed. Blocking you!*',
     READ_COMMAND: convertToBool(process.env.READ_COMMAND) || true,
     SESSION: process.env.SESSION || '',
