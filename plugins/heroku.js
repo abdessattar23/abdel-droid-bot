@@ -253,13 +253,14 @@ async function sendButton(buttons,text,footer,message){
             if (!(await isAdmin(message))) return await message.sendReply("_I'm not an admin!_")
             await delAntilink(message.jid)  
         }
-        if (!match[1].includes("button_on") && match[1].includes("button_off")){
+        if (match[1]!=="button_on" && match[1]!=="button_off"){
         const buttons = [
             {buttonId: handler+'antilink button_on', buttonText: {displayText: 'ON'}, type: 1},
             {buttonId: handler+'antilink button_off', buttonText: {displayText: 'OFF'}, type: 1}
         ]
         var status = jids.includes(message.jid) ? 'on' : 'off';
-        return await sendButton(buttons,`*Antilink control panel of ${message.jid}*`,"Antilink is currently turned "+status+" here",message)
+        var {subject} = await message.client.groupMetadata(message.jid)
+        return await sendButton(buttons,`_Antilink menu of ${subject}_`,"_Antilink is currently turned "+status+"_",message)
         }
         await message.sendReply(match[1] === "button_on" ? "_Antilink activated!_" : "_Antilink deactivated!_");
     }));

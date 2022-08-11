@@ -155,25 +155,57 @@ Module({
     use: 'group'
 }, async (message, match) => {
 var admin = await isAdmin(message)
-if (!admin) return await message.sendReply("*I'm not admin*");
+if (!admin) return await message.sendReply("_I'm not admin!_");
 if (match[1] === "on"){
     await setAntifake(message.jid);
-    return await message.sendMessage("_Antifake enabled!_")
+    return await message.sendReply("_Antifake enabled!_")
 }
 if (match[1] === "off"){
     await delAntifake(message.jid);
-    return await message.sendMessage("_Antifake disabled!_")
+    return await message.sendReply("_Antifake disabled!_")
 }
-const buttons = [{buttonId: handler+'antifake on', buttonText: {displayText: 'ON'}, type: 1},
-                {buttonId: handler+'antifake off', buttonText: {displayText: 'OFF'}, type: 1},
-                {buttonId: handler+'getvar ALLOWED', buttonText: {displayText: 'ALLOWED PREFIXES'}, type: 1}]
-          const buttonMessage = {
-              text: "*Antifake control panel of "+message.jid+"*",
-              footer: '',
-              buttons: buttons,
-              headerType: 1
-          }
-        await message.client.sendMessage(message.jid,buttonMessage)
+var {
+    subject,
+    owner
+} = await message.client.groupMetadata(message.jid)
+var myid = message.client.user.id.split(":")[0]
+owner = owner || myid + "@s.whatsapp.net"
+const templateButtons = [{
+        index: 1,
+        urlButton: {
+            displayText: 'WIKI',
+            url: 'https://github.com/souravkl11/raganork-md/wiki/Antifake'
+        }
+    },
+    {
+        index: 2,
+        quickReplyButton: {
+            displayText: 'ON',
+            id: handler+'antifake on'
+        }
+    },
+    {
+        index: 3,
+        quickReplyButton: {
+            displayText: 'OFF',
+            id: handler+'antifake off'
+        }
+    },
+    {
+        index: 4,
+        quickReplyButton: {
+            displayText: 'ALLOWED PREFIXES',
+            id: handler+'getvar ALLOWED'
+        }
+    },
+]
+
+const templateMessage = {
+    text: "*Antifake menu of* " + subject,
+    footer: '',
+    templateButtons: templateButtons
+}
+await message.client.sendMessage(message.jid, templateMessage)
     })
 Module({
     on: "group_update",
@@ -184,7 +216,7 @@ Module({
     db.map(data => {
         jids.push(data.jid)
     });
-    if (message.update === 27 && jids.includes(message.jid)) {
+    if (message.update === 'add' && jids.includes(message.jid)) {
         var allowed = ALLOWED.split(",");
         if (isFake(message.participant[0], allowed)) {
             var admin = await isAdmin(message);
