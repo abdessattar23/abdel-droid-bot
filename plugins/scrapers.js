@@ -227,7 +227,7 @@ Module({
             mimetype: "video/mp4",
             caption: title,
             thumbnail: await skbuffer(thumbnail)
-        });
+        },{quoted:message.data});
     });
 Module({
     pattern: 'news ?(.*)',
