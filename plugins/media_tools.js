@@ -103,7 +103,7 @@ const {
           await fs.writeFileSync('./temp/avmix/video.mp4', fs.readFileSync(savedFile));
           return await message.sendReply(Lang.AVMIX_VIDEO_ADDED)
       }
-      if (files.length>2 || !message.reply_message){
+      if (files.length>=2 || !message.reply_message){
         let video = await avMix('./temp/avmix/video.mp4','./temp/avmix/audio.mp3')
         await message.sendReply(video, 'video');
         await fs.unlinkSync('./temp/avmix/video.mp4');
