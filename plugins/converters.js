@@ -55,7 +55,7 @@ Module({
 }, (async (message, match) => {
     if (message.reply_message === false) return await message.sendReply(Lang.MP3_NEED_REPLY)
     var {seconds} = m.quoted.message[Object.keys(message.quoted.message)[0]];
-    if (seconds>120) await m.sendReply(`_Alert: Duration more than 2 mins. This process may fail or take much more time!_`)
+    if (seconds>120) await message.sendReply(`_Alert: Duration more than 2 mins. This process may fail or take much more time!_`)
     var savedFile = await message.reply_message.download();
     ffmpeg(savedFile)
         .save('./temp/tomp3.mp3')
