@@ -3,7 +3,7 @@ const {
 } = require('../main');
 const { requestLyricsFor, requestAuthorFor, requestTitleFor, requestIconFor } = require("solenolyrics");
 const {MODE} = require('../config');
-let fromMe = setting.MODE == 'public' ? false : true
+let fromMe = MODE == 'public' ? false : true
 Module({
     pattern: 'lyrics ?(.*)',
     fromMe: fromMe,
