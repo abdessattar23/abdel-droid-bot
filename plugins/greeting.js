@@ -30,7 +30,7 @@ Module({
     dontAddCommandList: true
 }, (async (message, match) => {
     if (match[1] === 'delete') {
-        await message.sendMessage(Lang.WELCOME_DELETED);
+        await message.send(Lang.WELCOME_DELETED);
         return await sql.deleteMessage(message.jid, 'welcome');
     }
     await sql.setMessage(message.jid, 'welcome', match[1].replace(/&/g, '\n'));
@@ -46,7 +46,7 @@ Module({
     if (hg === false) {
         await message.sendReply(Lang.NOT_SET_GOODBYE)
     } else {
-        await message.sendMessage(Lang.GOODBYE_ALREADY_SETTED + hg.message);
+        await message.send(Lang.GOODBYE_ALREADY_SETTED + hg.message);
     }
 }));
 Module({
@@ -60,5 +60,5 @@ Module({
         return await sql.deleteMessage(message.jid, 'goodbye');
     }
     await sql.setMessage(message.jid, 'goodbye', match[1].replace(/#/g, '\n'));
-    return await message.sendMessage(Lang.GOODBYE_SETTED)
+    return await message.send(Lang.GOODBYE_SETTED)
 }));

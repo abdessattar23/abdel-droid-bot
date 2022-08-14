@@ -32,7 +32,7 @@ Module({
     fromMe: w,
     desc: Lang.STICKER_DESC
 }, (async (message, match) => {
-    if (message.reply_message === false) return await message.sendMessage(Lang.STICKER_NEED_REPLY)
+    if (message.reply_message === false) return await message.send(Lang.STICKER_NEED_REPLY)
     var savedFile = await message.reply_message.download();
     var exif = {
         author: STICKER_DATA.split(";")[1] || "",
@@ -93,7 +93,7 @@ Module({
     use: 'edit',
     desc: Lang.PHOTO_DESC
 }, (async (message, match) => {
-    if (message.reply_message === false) return await message.sendMessage(Lang.PHOTO_NEED_REPLY)
+    if (message.reply_message === false) return await message.send(Lang.PHOTO_NEED_REPLY)
         var savedFile = await message.reply_message.download();
         ffmpeg(savedFile)
             .fromFormat('webp_pipe')
@@ -109,7 +109,7 @@ Module({
     use: 'utility',
     desc: "Text to animated sticker"
 }, (async (message, match) => {
-    if (match[1] == '') return await message.sendMessage("*Need text*")
+    if (match[1] == '') return await message.send("*Need text*")
     try { var result = await skbuffer("https://api.xteam.xyz/attp?file&text="+encodeURI(match[1]))
     return await message.sendReply(result,'sticker');
     } catch {var result = await skbuffer("https://raganork-api.herokuapp.com/api/attp?text="+encodeURI(match[1] +"&apikey=with_love_souravkl11"))} 
@@ -121,6 +121,6 @@ Module({
             android: "https://github.com/souravkl11/Raganork-md/",
             ios: "https://github.com/souravkl11/Raganork-md/"
         }
-        await message.sendMessage(fs.readFileSync(await addExif(await sticker("attp.mp4",'video'),exif)),'sticker')
+        await message.send(fs.readFileSync(await addExif(await sticker("attp.mp4",'video'),exif)),'sticker')
     })
 }));

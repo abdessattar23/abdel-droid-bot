@@ -57,7 +57,7 @@ async function sendButton(buttons,text,footer,message){
     
         await message.sendReply(Lang.RESTART_MSG)
         await heroku.delete(baseURI + '/dynos').catch(async (error) => {
-            await message.sendMessage(error.message)
+            await message.send(error.message)
         });
     }));
     
@@ -77,7 +77,7 @@ async function sendButton(buttons,text,footer,message){
                 }
             });
         }).catch(async (err) => {
-            await message.sendMessage(error.message)
+            await message.send(error.message)
         });
     }));
     
@@ -110,7 +110,7 @@ async function sendButton(buttons,text,footer,message){
                     "_Remaining: *{}*_\n".format(secondsToDhms(remaining)))
     
             }).catch(async (err) => {
-                await message.sendMessage(error.message)
+                await message.send(error.message)
             });
         });
     }));
@@ -178,7 +178,7 @@ async function sendButton(buttons,text,footer,message){
             }
             await await message.sendReply(Lang.NOT_FOUND)
         }).catch(async (error) => {
-            await await message.sendMessage(error.message)
+            await await message.send(error.message)
         });
     }));
     Module({
@@ -198,7 +198,7 @@ async function sendButton(buttons,text,footer,message){
                     return await await message.sendReply(msg += '```')
                 })
                 .catch(async (error) => {
-                    await message.sendMessage(error.message)
+                    await message.send(error.message)
                 })
         }
     );

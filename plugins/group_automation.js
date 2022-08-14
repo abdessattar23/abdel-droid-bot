@@ -67,7 +67,7 @@ if (message.reply_message && message.reply_message.sticker){
         if (delete_again) return await message.sendReply(`_Removed ${match[1]} from sticked commands!_`)
         if (delete_again === false) return await message.sendReply("_No such sticker/command found!_")
     }
-    if (deleted && !match[1]) return await message.sendMessage("_No such sticker found!_");
+    if (deleted && !match[1]) return await message.send("_No such sticker found!_");
 }
 else if (match[1] && !message.reply_message) {
 let deleted = await unstickCmd(match[1])

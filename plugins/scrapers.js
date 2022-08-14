@@ -125,7 +125,7 @@ Module({
         await message.sendReply(Lang.IMG.format(results.splice(0, count).length, query))
         for (var i = 0; i < (results.length < count ? results.length : count); i++) {
          try { var buff = await skbuffer(results[i].url); } catch { var buff = await skbuffer("https://miro.medium.com/max/800/1*hFwwQAW45673VGKrMPE2qQ.png") }
-         await message.sendMessage(buff, 'image');
+         await message.send(buff, 'image');
         }
 }));
 Module({
@@ -317,7 +317,7 @@ Module({
 }, async (message, match) => {
     var url = match[1] || message.reply_message.text
     if (!url || !/\bhttps?:\/\/\S+/gi.test(url)) return await message.sendReply("*Need url*");
-    await message.sendMessage("*Taking screenshot...*");
+    await message.send("*Taking screenshot...*");
     return await message.sendReply(await skbuffer("https://shot.screenshotapi.net/screenshot?&url="+url.match(/\bhttps?:\/\/\S+/gi)[0]+"&fresh=true&output=image&file_type=png&wait_for_event=load"),'image')
 });
 Module({
@@ -405,7 +405,7 @@ if (message.button && message.button.startsWith("24n") && message.button.include
         use: 'utility'
     }, async (message, match) => {
     
-    if (!message.reply_message) return await message.sendMessage(Lang.NEED_REPLY)
+    if (!message.reply_message) return await message.send(Lang.NEED_REPLY)
     const msg = message.reply_message.text
     var ldet = lngDetector.detect(msg)
     async function upperfirstLetter(letter) {

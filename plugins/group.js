@@ -33,7 +33,7 @@ Module({
             var admin = await isAdmin(message);
             if (!admin) return await message.sendReply(Lang.NOT_ADMIN)
             let users = participants.filter((member) => !member.admin)
-            await message.sendMessage(`_❗❗ Kicking *every* members of ${subject}. Restart bot immediately to kill this process ❗❗_\n*You have 5 seconds left*`)
+            await message.send(`_❗❗ Kicking *every* members of ${subject}. Restart bot immediately to kill this process ❗❗_\n*You have 5 seconds left*`)
             await new Promise((r) => setTimeout(r, 5000))
             for (let member of users) {
                 await new Promise((r) => setTimeout(r, 1000))
@@ -45,7 +45,7 @@ Module({
             var admin = await isAdmin(message);
             if (!admin) return await message.sendReply(Lang.NOT_ADMIN)
             let users = participants.filter((member) => member.id.startsWith(match[1]) && !member.admin)
-            await message.sendMessage(`_❗❗ Kicking *${users.length}* members starting with number *${match[1]}*. Restart bot immediately to kill this process ❗❗_\n*You have 5 seconds left*`)
+            await message.send(`_❗❗ Kicking *${users.length}* members starting with number *${match[1]}*. Restart bot immediately to kill this process ❗❗_\n*You have 5 seconds left*`)
             await new Promise((r) => setTimeout(r, 5000))
             for (let member of users) {
                 await new Promise((r) => setTimeout(r, 1000))
@@ -176,13 +176,13 @@ Module({
     let duration = match[1].endsWith("h") ? h2m(match[1].match(/\d+/)[0]) : m2m(match[1].match(/\d+/)[0])
     match = match[1].endsWith("h") ? match[1]+'ours' : match[1]+'ins'
     await message.client.groupSettingUpdate(message.jid, 'announcement')
-    await message.sendMessage(`_Muted for ${match}_`)
+    await message.send(`_Muted for ${match}_`)
     await require("timers/promises").setTimeout(duration);
     return await message.client.groupSettingUpdate(message.jid, 'not_announcement')
-    await message.sendMessage(Lang.UNMUTED)    
+    await message.send(Lang.UNMUTED)    
 }
     await message.client.groupSettingUpdate(message.jid, 'announcement')
-    await message.sendMessage(Lang.MUTED)
+    await message.send(Lang.MUTED)
 }))
 Module({
     pattern: 'unmute',
@@ -194,7 +194,7 @@ Module({
     var admin = await isAdmin(message);
     if (!admin) return await message.sendReply(Lang.NOT_ADMIN)
     await message.client.groupSettingUpdate(message.jid, 'not_announcement')
-    await message.sendMessage(Lang.UNMUTED)
+    await message.send(Lang.UNMUTED)
 }))
 Module({
     pattern: 'jid',
@@ -229,7 +229,7 @@ Module({
     var admin = await isAdmin(message);
     if (!admin) return await message.sendReply(Lang.NOT_ADMIN)
     await message.client.groupRevokeInvite(message.jid)
-    await message.sendMessage(Lang.REVOKED)
+    await message.send(Lang.REVOKED)
 }))
 Module({
     pattern: 'common ?(.*)',
