@@ -235,6 +235,29 @@ async function sendButton(buttons,text,footer,message){
         return await sendButton(buttons,"*Working mode control panel*","Bot is currently running on "+Config.MODE+" mode now",message)
     }));
     Module({
+        pattern: 'antispam ?(.*)',
+        fromMe: true,
+        desc: "Detects spam messages and kicks user.",
+        use: 'config'
+    }, (async (message, match) => {
+        var admin = await isAdmin(message)
+        if (!admin) return await message.sendReply("_I'm not admin_");
+        var Jids = [...Config.ANTI_SPAM?.match(/[0-9]+(-[0-9]+|)(@g.us|@s.whatsapp.net)/g)]
+        var msg = Config.ANTI_SPAM;
+        var toggle = "on"
+        var off_msg = Jids?.filter(e=>e!==message.jid)
+        if (!Jids.includes(message.jid)){
+            Jids.push(message.jid)
+            msg = Jids.join(",")
+            toggle = "off"
+        }
+        const buttons = [
+            {buttonId: handler+'setvar ANTI_SPAM:'+msg, buttonText: {displayText: 'ON'}, type: 1},
+            {buttonId: handler+'setvar ANTI_SPAM:'+off_msg, buttonText: {displayText: 'OFF'}, type: 1}
+        ]
+        return await sendButton(buttons,"*Antispam control panel*","Antispam is currently "+toggle,message)
+    }));
+    Module({
         pattern: 'antilink ?(.*)',
         fromMe: true,
         desc: "Activates antilink",

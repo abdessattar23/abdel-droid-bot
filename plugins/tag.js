@@ -31,14 +31,14 @@ Module({pattern: 'tagadmin',use: 'group', fromMe: true, desc: "Tags admins",usag
 }))
 Module({pattern: 'forward ?(.*)',use: 'utility', fromMe: true, desc: "Forwards message"}, (async (message, match) => {
     if (!message.reply_message) return await message.sendReply("*Reply to a message*\n*Ex: .forward jid jid ...*")
-    let Jids = [...match[1].match(/[0-9]+(-[0-9]+|)(@g.us|@s.whatsapp.net)/g)] || [message.jid]
+    let Jids = [...match[1]?.match(/[0-9]+(-[0-9]+|)(@g.us|@s.whatsapp.net)/g)] || [message.jid]
         for (let jid of Jids) {
       await message.forwardMessage(jid, message.quoted,{detectLinks: true});
     }
 }));
 Module({pattern: 'send ?(.*)',use: 'utility', fromMe: true, desc: "Sends message"}, (async (message, match) => {
     if (!message.reply_message) return await message.sendReply("*Reply to a message*\n*Ex: .send jid jid ...*")
-    let Jids = [...match[1].match(/[0-9]+(-[0-9]+|)(@g.us|@s.whatsapp.net)/g)] || [message.jid];
+    let Jids = [...match[1]?.match(/[0-9]+(-[0-9]+|)(@g.us|@s.whatsapp.net)/g)] || [message.jid];
         for (let jid of Jids) {
       await message.forwardMessage(jid, message.quoted,{contextInfo:{isForwarded: false},detectLinks: true});
     }
