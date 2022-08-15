@@ -45,7 +45,7 @@ Module({
   if (!match[1]) return message.sendReply(Lang.NEED_TEXT_SONG)
   var link = match[1].match(/\bhttps?:\/\/\S+/gi)
   if (link !== null && getID.test(link[0])) {
-  /*  var {
+    var {
       thumbnail,title,size,url
   } = await downloadYT(link[0],'audio');
   await message.sendReply(`*Downloading:* _${title}_`)
@@ -59,7 +59,7 @@ Module({
   }, {
       quoted: message.data
   });  
-}*/
+}
   // Method 2: Direct Download from YT
   var song = await getSong(link[0]);
   ffmpeg(song)
