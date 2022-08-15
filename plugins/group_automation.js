@@ -221,10 +221,10 @@ Module({
         if (isFake(message.participant[0], allowed)) {
             var admin = await isAdmin(message);
             if (!admin) return;
-            await message.client.sendMessage(message.jid, {
+            /*await message.client.sendMessage(message.jid, {
                 text: "*Country code not allowed* @" + message.participant[0].split("@")[0],
                 mentions: [message.participant[0]]
-            });
+            });*/
             return await message.client.groupParticipantsUpdate(message.jid, [message.participant[0]], "remove")
         }
     }
