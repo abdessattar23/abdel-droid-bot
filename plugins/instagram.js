@@ -41,7 +41,7 @@ Module({
     usage: 'insta link or reply to a link',
     use: 'download'
 }, (async (msg, query) => {
-     var q = !msg.reply_message.message ? query[1] : msg.reply_message.message
+     var q = query[1] || msg.reply_message?.text
      if (q && (q.startsWith('l') || q.includes('youtu'))) return;
     if (!q) return await msg.sendReply("*Need instagram link*")
     if (q.includes("stories")) return await msg.sendReply("*Use .story command!*")
