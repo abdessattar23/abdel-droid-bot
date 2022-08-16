@@ -17,7 +17,7 @@ Module({
     if (!m.quoted.key.fromMe) {
     var admin = await isAdmin(m);
     if (!admin) return await m.sendReply("_I'm not an admin!_")
-    return await m.client.sendMessage(m.jid, { delete: m.quoted.key })
+    return await m.client.sendMessage(m.quoted.key.remoteJid, { delete: m.quoted.key })
     }
 }));
 Module({
