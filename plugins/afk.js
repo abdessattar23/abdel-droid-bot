@@ -44,7 +44,7 @@ Module({on: 'text', fromMe: true}, async (message, match) => {
     footer: 'AFK manager',
     buttons: buttons
 }
-    await message.client.sendMessage(m.jid,buttonMessage,{quoted:message.data})
+    await message.client.sendMessage(message.jid,buttonMessage,{quoted:message.data})
     }
 });
 
