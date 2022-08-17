@@ -34,9 +34,10 @@ Module({on: 'text', fromMe: false}, async (message, match) => {
     }
 });
 Module({on: 'text', fromMe: true}, async (message, match) => {
+    var handler = config.HANDLERS !== 'false'?config.HANDLERS.split("")[0]:"";
     if (AFK_DB.isAfk && !message.id.startsWith('3EB0') && (message.fromMe || message.sender.split("@")[0] === config.SUDO?.split(",")[0])) {
     const buttons = [
-  {buttonId: 'afk disable_button', buttonText: {displayText: 'Yes, disable afk'}, type: 1}
+  {buttonId: handler+'afk disable_button', buttonText: {displayText: 'Yes, disable afk'}, type: 1}
      ]
 
     const buttonMessage = {
