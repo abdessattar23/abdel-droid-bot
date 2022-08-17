@@ -35,14 +35,26 @@ Module({on: 'text', fromMe: false}, async (message, match) => {
 });
 Module({on: 'text', fromMe: true}, async (message, match) => {
     if (AFK_DB.isAfk && !message.id.startsWith('3EB0') && (message.fromMe || message.sender.split("@")[0] === config.SUDO?.split(",")[0])) {
-        AFK_DB.lastseen = 0;
-        AFK_DB.reason = false;
-        AFK_DB.isAfk = false;
-        await message.send(Lang.IM_NOT_AFK);
+    const buttons = [
+  {buttonId: 'afk disable_button', buttonText: {displayText: 'Yes, disable afk'}, type: 1}
+     ]
+
+    const buttonMessage = {
+    text: "*Looks like you are back online. Disable afk?*",
+    footer: 'AFK manager',
+    buttons: buttons
+}
+    await message.client.sendMessage(m.jid,buttonMessage,{quoted:message.data})
     }
 });
 
 Module({pattern: 'afk ?(.*)', fromMe: true, desc: Lang.AFK_DESC}, async (message, match) => {     
+    if (match[1] === "disable_button" && (message.fromMe || message.sender.split("@")[0] === config.SUDO?.split(",")[0])){
+        AFK_DB.lastseen = 0;
+        AFK_DB.reason = false;
+        AFK_DB.isAfk = false;
+        await message.sendReply(Lang.IM_NOT_AFK);
+    }
     if (!AFK_DB.isAfk) {
         AFK_DB.lastseen = Math.round((new Date()).getTime() / 1000);
         if (match !== '') { AFK_DB.reason = match[1]; }
