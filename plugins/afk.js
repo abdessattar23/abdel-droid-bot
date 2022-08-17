@@ -44,7 +44,7 @@ Module({on: 'text', fromMe: true}, async (message, match) => {
     footer: 'AFK manager',
     buttons: buttons
 }
-    await message.client.sendMessage(message.jid,buttonMessage,{quoted:message.data})
+    return await message.client.sendMessage(message.jid,buttonMessage,{quoted:message.data})
     }
 });
 
@@ -53,9 +53,9 @@ Module({pattern: 'afk ?(.*)', fromMe: true, desc: Lang.AFK_DESC}, async (message
         AFK_DB.lastseen = 0;
         AFK_DB.reason = false;
         AFK_DB.isAfk = false;
-        await message.sendReply(Lang.IM_NOT_AFK);
+        return await message.sendReply(Lang.IM_NOT_AFK);
     }
-    if (!AFK_DB.isAfk) {
+    else if (!AFK_DB.isAfk) {
         AFK_DB.lastseen = Math.round((new Date()).getTime() / 1000);
         if (match !== '') { AFK_DB.reason = match[1]; }
         AFK_DB.isAfk = true;
