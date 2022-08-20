@@ -101,6 +101,7 @@ Module({
     
     return await message.client.groupLeave(message.jid);
 }))
+// QUOTED - COPYRIGHT: souravkl11/raganork
 Module({
     pattern: 'quoted',
     fromMe: true,
@@ -109,15 +110,9 @@ Module({
     try {
     var msg = await message.client.store.toJSON()?.messages[message.jid]?.toJSON().filter(e=>e.key.id===message.reply_message.id)
     var quoted = msg[0].message[Object.keys(msg[0].message)].contextInfo;
-    var obj = {
-        key: {
-          remoteJid: message.jid,
-          fromMe: true,
-          id: quoted.stanzaId,
-          participant: quoted.participant
-        },
-        message: quoted.quotedMessage
-      }
+    var quoted2 = await message.client.store.toJSON()?.messages[message.jid]?.toJSON().filter(e=>e.key.id===quoted.stanzaId)
+    if (quoted2.length) return await message.forwardMessage(message.jid,quoted2[0]);
+    var obj = {key: {remoteJid: message.jid,fromMe: true,id: quoted.stanzaId,participant: quoted.participant},message: quoted.quotedMessage}
     return await message.forwardMessage(message.jid,obj);
     } catch { return await message.sendReply("_Failed to load message!_") }
 })) /*

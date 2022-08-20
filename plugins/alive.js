@@ -39,12 +39,7 @@ Module({
 }, {
   urlButton: {
     displayText: 'Contact Owner',
-    url: 'https://wa.me/'+BOT_INFO.split(";")[2]+'?text=Hey+bro'
-    }
-}, {
-    quickReplyButton: {
-        displayText: 'Bot status',
-        id: 'ping'+myid
+    url: 'https://wa.me/'+BOT_INFO.split(";")[2]+'?text=*Hey+'+BOT_INFO.split(";")[1]+'*'
     }
 }, {
     quickReplyButton: {
