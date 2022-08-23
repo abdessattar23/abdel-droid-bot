@@ -152,7 +152,7 @@ Module({
     await message.client.groupParticipantsUpdate(message.jid, [message.reply_message.jid], "demote")
 }))
 Module({
-    pattern: 'mute',
+    pattern: 'mute ?(.*)',
     use: 'group',
     fromMe: true,
     desc: Lang.MUTE_DESC,
@@ -221,6 +221,52 @@ Module({
     if (!admin) return await message.sendReply(Lang.NOT_ADMIN)
     await message.client.groupRevokeInvite(message.jid)
     await message.send(Lang.REVOKED)
+}))
+Module({
+    pattern: 'glock ?(.*)',
+    fromMe: true,
+    use: 'group',
+    desc: "Change group settings to allow only admins to edit group's info!"
+}, (async (message, match) => {
+    if (!message.isGroup) return await message.sendReply(Lang.GROUP_COMMAND)
+    if (!(await isAdmin(message))) return await message.sendReply(Lang.NOT_ADMIN)
+    return await message.client.groupSettingUpdate(message.jid,"locked")
+}))
+Module({
+    pattern: 'gunlock ?(.*)',
+    fromMe: true,
+    use: 'group',
+    desc: "Change group settings to allow everyone to edit group's info!"
+}, (async (message, match) => {
+    if (!message.isGroup) return await message.sendReply(Lang.GROUP_COMMAND)
+    if (!(await isAdmin(message))) return await message.sendReply(Lang.NOT_ADMIN)
+    return await message.client.groupSettingUpdate(message.jid,"unlocked")
+}))
+Module({
+    pattern: 'gname ?(.*)',
+    fromMe: true,
+    use: 'group',
+    desc: "Change group subject"
+}, (async (message, match) => {
+    if (!message.isGroup) return await message.sendReply(Lang.GROUP_COMMAND)
+    let newName = match[1] || message.reply_message?.text
+    if (!newName) return await message.sendReply("_Need text!_")
+    var {restrict} = await message.client.groupMetadata(message.jid);
+    if (restrict && !(await isAdmin(message))) return await message.sendReply(Lang.NOT_ADMIN)
+    return await message.client.groupUpdateSubject(message.jid,(match[1] || message.reply_message?.text).slice(0,25))
+}))
+Module({
+    pattern: 'gdesc ?(.*)',
+    fromMe: true,
+    use: 'group',
+    desc: "Change group description"
+}, (async (message, match) => {
+    if (!message.isGroup) return await message.sendReply(Lang.GROUP_COMMAND)
+    let newName = match[1] || message.reply_message?.text
+    if (!newName) return await message.sendReply("_Need text!_")
+    var {restrict} = await message.client.groupMetadata(message.jid);
+    if (restrict && !(await isAdmin(message))) return await message.sendReply(Lang.NOT_ADMIN)
+    try { return await message.client.groupUpdateDescription(message.jid,(match[1] || message.reply_message?.text).slice(0,512)) } catch { return await message.sendReply("_Failed to change!_")}
 }))
 Module({
     pattern: 'common ?(.*)',
