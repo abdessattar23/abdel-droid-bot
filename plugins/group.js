@@ -115,25 +115,43 @@ Module({
     var obj = {key: {remoteJid: message.jid,fromMe: true,id: quoted.stanzaId,participant: quoted.participant},message: quoted.quotedMessage}
     return await message.forwardMessage(message.jid,obj);
     } catch { return await message.sendReply("_Failed to load message!_") }
-})) /*
-=============== WORK IN PROGRESS ================
+})) 
 Module({
     pattern: 'msgs ?(.*)',
     fromMe: true,
     desc:"Shows number of messages sent by each member. (Only from when bot was set up)"
 }, (async (message, match) => {
     if (!message.isGroup) return await message.sendReply(Lang.GROUP_COMMAND)
-    var user = message.mention[0];
-    try {
-    if (user) {
-    var msg = (await message.client.getMessages(message.jid)).filter(e=>e.key.participant===user);
-    return await message.client.sendMessage(message.jid,{text:`_@${user.split("@")[0]} has ${msg.length} messages._`,mentions:[user]})
-    } else {
-    var msg = (await message.client.getMessages(message.jid))   
+    var m = message; var conn = message.client;
+    let msgs = await conn.getMessages(m.jid);
+    let users = (await conn.groupMetadata(m.jid)).participants.map(e=>e.id);
+    function timeSince(date){var seconds=Math.floor((new Date()-date)/1000);var interval=seconds/31536000;if(interval>1){return Math.floor(interval)+" years ago"}
+    interval=seconds/2592000;if(interval>1){return Math.floor(interval)+" months ago"}
+    interval=seconds/86400;if(interval>1){return Math.floor(interval)+" days ago"}
+    interval=seconds/3600;if(interval>1){return Math.floor(interval)+" hours ago"}
+    interval=seconds/60;if(interval>1){return Math.floor(interval)+" minutes ago"}
+    return Math.floor(seconds)+" seconds ago"};
+    const flc = (x) => {
+    if (x === "undefined") x = "others"
+    try { return x.charAt(0).toUpperCase() + x.slice(1) } catch { return x }
     }
-    } catch { return await message.sendReply("_Failed to count messages!_") }
+    let final_msg = "_Messages sent by each users_\n\n";
+    for (let user of users){
+    if (Object.keys(msgs).includes(user)){
+    let count = msgs[user].total
+    let name = msgs[user].name?.replace( /[\r\n]+/gm, "" )
+    let lastMsg = timeSince(msgs[user].time)
+    let types = msgs[user].type
+    let types_msg = "\n"
+    for (var type in types){
+        types_msg+=`_${flc(type)}: *${types[type]}*_\n`
+    } 
+    final_msg+=`_Name: *${name}*_\n_Total msgs: *${count}*_\n_Last msg: *${lastMsg}*_${types_msg}\n\n`
+}
+}
+return final_msg
+
 }))
-*/
 Module({
     pattern: 'demote ?(.*)',
     fromMe: true,
