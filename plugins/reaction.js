@@ -30,10 +30,8 @@ Module({
     desc: "Anti view once",
     use: 'utility'
 }, (async (m, t) => {
-    if ('viewOnceMessage' in m.quoted.message){
+    if (!m.reply_message || !m.quoted?.message.hasOwnProperty('viewOnceMessage')) return await m.sendReply("_Not a view once msg!_") 
     m.quoted.message = m.quoted.message.viewOnceMessage.message;
     m.quoted.message[Object.keys(m.quoted.message)[0]].viewOnce = false
     await m.forwardMessage(m.jid,m.quoted,{caption: "_Anti view once_"})
-    await m.client.sendMessage(m.jid, reactionMessage);
-    } else return await m.sendReply("_Not a view once msg!_") 
-}));
+    }));
