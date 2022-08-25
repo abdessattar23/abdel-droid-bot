@@ -146,10 +146,10 @@ Module({
     for (var type in types){
         types_msg+=`_${flc(type)}: *${types[type]}*_\n`
     } 
-    final_msg+=`_Name: *${name}*_\n_Total msgs: *${count}*_\n_Last msg: *${lastMsg}*_${types_msg}\n\n`
+    final_msg+=`_Participant: *+${user.split("@")[0]}*_\n_Name: *${name}*_\n_Total msgs: *${count}*_\n_Last msg: *${lastMsg}*_${types_msg}\n\n`
 }
 }
-return final_msg
+return await m.sendReply(final_msg)
 
 }))
 Module({
