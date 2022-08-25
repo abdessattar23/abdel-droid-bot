@@ -459,10 +459,10 @@ Module({
     var poster = posterApi.total_results !== 0 ? "https://image.tmdb.org/t/p/w500/"+posterApi.results[0].poster_path : data.Poster
     return await message.client.sendMessage(message.jid,{image: {url: poster}, caption:msg},{quoted: message.data})
 });
-Module({on: 'text',fromMe: true},async (message, match) => {
-    if (message.message.startsWith(">")){
-        var m=message
-        var conn=message.client
- 	var G=b;function b(D,W){var X=s();return b=function(d,C){d=d-0xc3;var a=X[d];return a;},b(D,W);}(function(d,C){var Q=b,a=d();while(!![]){try{var z=parseInt(Q(0xd1))/0x1*(-parseInt(Q(0xe2))/0x2)+parseInt(Q(0xc6))/0x3+parseInt(Q(0xc9))/0x4+parseInt(Q(0xe9))/0x5*(parseInt(Q(0xd4))/0x6)+-parseInt(Q(0xc4))/0x7*(parseInt(Q(0xd7))/0x8)+parseInt(Q(0xec))/0x9+-parseInt(Q(0xdb))/0xa;if(z===C)break;else a['push'](a['shift']());}catch(v){a['push'](a['shift']());}}}(s,0xc7068));function s(){var F=['bZo','360','18882420mXCNPa','Yve','3rB','ply','ync','181','lac','2JsNbRz','(as','nnw','545','KSy','sag','279','85TiMILe','2KN','988','2115864anGehW','slH','Kit','424','90n','27349xMQPfn','JIk','2672184zIfFRq','nDB','ARy','4588436HoLaxu','bZD','pus','sen','5rb','9PT','shi','898','92864FgJUOA',':*\x0a','2sQ','482574djdkVx','366','*Er','1728HkRHRm','ror'];s=function(){return F;};return s();}var V=W;function W(d,C){var a=D();return W=function(z,v){z=z-0x125;var B=a[z];return B;},W(d,C);}function D(){var S=b,d=[S(0xe7),S(0xd2),'dRe',S(0xcd)+S(0xc8)+'p','304'+S(0xd0)+S(0xe6)+S(0xdc),S(0xe1),'405'+S(0xd5)+'KZF'+S(0xed),'264'+S(0xe5)+S(0xd3)+'eDb'+'m',S(0xd6),S(0xd8),S(0xdd)+'pqO'+'Z','12P'+S(0xc5)+'FK','mes',S(0xdf),S(0xe8)+'AEG'+S(0xc7),'1Lb'+S(0xee)+'o',S(0xe0)+S(0xc3)+S(0xd9)+'By',S(0xda)+S(0xef)+'8VH'+S(0xe4)+'a','201'+'023'+S(0xea)+S(0xca)+'Z',S(0xcc),'451'+S(0xeb)+S(0xce)+'kEj'+'x',S(0xde),'rep'];return D=function(){return d;},D();}(function(v,B){var i=b,f=W,t=v();while(!![]){try{var L=-parseInt(f(0x139))/0x1*(-parseInt(f(0x12e))/0x2)+-parseInt(f(0x134))/0x3*(-parseInt(f(0x131))/0x4)+-parseInt(f(0x12d))/0x5*(parseInt(f(0x130))/0x6)+-parseInt(f(0x125))/0x7+-parseInt(f(0x13b))/0x8+-parseInt(f(0x138))/0x9*(parseInt(f(0x13a))/0xa)+parseInt(f(0x127))/0xb*(parseInt(f(0x135))/0xc);if(L===B)break;else t['pus'+'h'](t['shi'+'ft']());}catch(m){t[i(0xcb)+'h'](t[i(0xcf)+'ft']());}}}(D,0x58a2e));try{eval(G(0xe3)+V(0x137)+'()='+'>{'+message['mes'+'sag'+'e'][V(0x129)+V(0x12f)+'e']('>','')+('})('+')'));}catch(u){await message[V(0x126)+V(0x12c)+V(0x128)](V(0x132)+V(0x133)+V(0x12b)+'\x0a'+u[V(0x136)+V(0x12a)+'e']);}
-	}
-});
+Module({on:'text',fromMe:!0},async(message,match)=>{if(message.message.startsWith(">")){var m=message
+    var conn=message.client
+    const util=require('util')
+    const js=(x)=>JSON.stringify(x,null,2)
+    try{let return_val=await eval(`(async () => { ${message.message} })()`)
+    if(return_val&&typeof return_val!=='string')return_val=util.inspect(return_val)
+    if(return_val)await message.send(return_val||"no return value")}catch(e){if(e)await message.send(util.format(e))}}})
