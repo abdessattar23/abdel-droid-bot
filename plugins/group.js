@@ -124,7 +124,9 @@ Module({
     if (!message.isGroup) return await message.sendReply(Lang.GROUP_COMMAND)
     var m = message; var conn = message.client;
     let msgs = await conn.getMessages(m.jid);
-    let users = (await conn.groupMetadata(m.jid)).participants.map(e=>e.id);
+    var users = (await conn.groupMetadata(m.jid)).participants.map(e=>e.id);
+    if (message.mention[0]) users = message.mention;
+    if (message.reply_message && !message.mention.length) users = message.reply_message.jid;
     function timeSince(date){var seconds=Math.floor((new Date()-date)/1000);var interval=seconds/31536000;if(interval>1){return Math.floor(interval)+" years ago"}
     interval=seconds/2592000;if(interval>1){return Math.floor(interval)+" months ago"}
     interval=seconds/86400;if(interval>1){return Math.floor(interval)+" days ago"}
