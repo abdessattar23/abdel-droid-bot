@@ -19,7 +19,7 @@ for (let i = 0; i < 6; i++){
 }
 });
 Module({pattern: 'getjids ?(.*)', desc: 'Get all groups\' jids',use: 'utility',fromMe: true}, async (msg, query) => {
-    var groups = Object.keys(await conn.groupFetchAllParticipating())
+    var groups = Object.keys(await msg.client.groupFetchAllParticipating())
     if (!groups.length) return await msg.sendReply("_No group chats!_");
     var _msg = "";
     for (let e of sk){
