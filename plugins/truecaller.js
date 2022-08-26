@@ -22,7 +22,7 @@ Module({pattern: 'getjids ?(.*)', desc: 'Get all groups\' jids',use: 'utility',f
     var groups = Object.keys(await msg.client.groupFetchAllParticipating())
     if (!groups.length) return await msg.sendReply("_No group chats!_");
     var _msg = "";
-    for (let e of sk){
+    for (let e of groups){
     _msg+= `_Group:_ ${(await msg.client.groupMetadata(e)).subject} \n_JID:_ ${e}\n\n`
     }
     await msg.sendMessage(_msg)
