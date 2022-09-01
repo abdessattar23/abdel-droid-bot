@@ -182,10 +182,10 @@ Module({
     var admin = await isAdmin(message);
     if (!admin) return await message.sendReply(Lang.NOT_ADMIN)
     if (match[1]){
-    const h2m = function(h){console.log(1000*60*60*h)}
-    const m2m = function(m){console.log(1000*60*m)}
+    const h2m = function(h){return (1000*60*60*h)}
+    const m2m = function(m){return (1000*60*m)}
     let duration = match[1].endsWith("h") ? h2m(match[1].match(/\d+/)[0]) : m2m(match[1].match(/\d+/)[0])
-    match = match[1].endsWith("h") ? match[1]+'ours' : match[1]+'ins'
+    match = match[1].endsWith("h") ? match[1]+'ours' : match[1]+'mins'
     await message.client.groupSettingUpdate(message.jid, 'announcement')
     await message.send(`_Muted for ${match}_`)
     await require("timers/promises").setTimeout(duration);
