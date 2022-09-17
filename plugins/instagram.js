@@ -53,11 +53,11 @@ Module({
     var getid = /(?:https?:\/\/)?(?:www\.)?(?:instagram\.com(?:\/.+?)?\/(p|reel|tv)\/)([\w-]+)(?:\/)?(\?.*)?$/
     var url = getid.exec(q)
     if (url != null) {
-        var res = await downloadGram(url[0])
+        try { var res = await downloadGram(url[0]) } catch { return await msg.sendReply("_Broken link! Try another one._") }
         if (res == false) return await msg.sendReply("*Download failed*");
         var quoted = msg.reply_message ? msg.quoted : msg.data
         for (var i in res) {
-        await msg.client.sendMessage(msg.jid,{[res[i].includes("jpg")?'image':'video']:{url:res[i]}},{quoted})
+        await msg.client.sendMessage(msg.jid,{[res[i].includes("mp4")?'video':'image']:{url:res[i]}},{quoted})
         };
     }
 }));
