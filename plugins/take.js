@@ -90,7 +90,7 @@ Module({
     desc: 'Converts animated sticker to video'
 }, (async (m, t) => {
     if (m.reply_message.sticker) {
-        var q = m.reply_message.download();
+        var q = await m.reply_message.download();
         try {
             var result = await webp2mp4(q)
         } catch {
