@@ -300,15 +300,11 @@ Module({
 }, async (message, match) => {
     if (!match[1]) return await message.sendReply("*Need url*");
     var {link,title,size} = (await axios("https://raganork-network.vercel.app/api/mediafire?url="+match[1])).data
-    var mediaFire = [{
-        urlButton: {
-            displayText: 'Download',
-            url: link
-        }
-    }]
-   var header = "_File:_ "+title+"\n _Size:_ "+size+"\n _Click this button to download_"
-return await message.sendImageTemplate(await skbuffer("https://play-lh.googleusercontent.com/Br7DFOmd9GCUmXdyTnPVqNj_klusX0OEx6MrElu8Avl2KJ7wbsS7dBdci293o7vF4fk"),header,"Mediafire Downloader",mediaFire)
-});
+    await message.sendReply(`_*Downloading file.. [${size}]*_`);
+    let document = await skbuffer(link)
+    let {mime} = await fromBuffer(document)
+    await message.client.sendMessage(message.jid,{document,fileName:title, mimetype:mime},{quoted: message.data});
+    });
 Module({
     pattern: 'ss ?(.*)',
     fromMe: w,
