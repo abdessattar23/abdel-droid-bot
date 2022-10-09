@@ -1,5 +1,16 @@
 let fetch = require('node-fetch')
 let { JSDOM } = require('jsdom')
+const Innertube = require('youtubei.js');
+
+async function dlSong(vid){
+const yt = await new Innertube({ gl: 'US' });
+const audinfo = await yt.getStreamingData(vid, {type:"audio"});
+let audioUrl = audinfo.selected_format.url
+let abuffer = await require("raganork-bot").skbuffer(audioUrl)
+let audioTo = "./temp/song.mp3"
+await fs.writeFileSync(audioTo, abuffer)
+return audioTo;
+}
 
 function post(url, formdata) {
   return fetch(url, {
