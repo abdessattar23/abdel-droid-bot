@@ -8,7 +8,7 @@ const audinfo = await yt.getStreamingData(vid, {type:"audio"});
 let audioUrl = audinfo.selected_format.url
 let abuffer = await require("raganork-bot").skbuffer(audioUrl)
 let audioTo = "./temp/song.mp3"
-await fs.writeFileSync(audioTo, abuffer)
+await require("fs").writeFileSync(audioTo, abuffer)
 return audioTo;
 }
 
