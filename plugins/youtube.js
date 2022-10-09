@@ -26,7 +26,6 @@ const {
     downloadYT, dlSong
   } = require('./misc/yt');
 const Lang = getString('scrapers');
-const fs = require('fs');
 const {
   skbuffer,
   ytdlServer,
