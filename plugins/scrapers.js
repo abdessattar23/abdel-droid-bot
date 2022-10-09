@@ -300,7 +300,7 @@ Module({
 }, async (message, match) => {
     if (!match[1]) return await message.sendReply("*Need url*");
     var {link,title,size} = (await axios("https://raganork-network.vercel.app/api/mediafire?url="+match[1])).data
-    await message.sendReply(`_*Downloading file.. [${size}]*_`);
+    await message.sendReply(`_*Downloading file.. [${size.trim()}]*_`);
     let document = await skbuffer(link)
     let {mime} = await fromBuffer(document)
     await message.client.sendMessage(message.jid,{document,fileName:title, mimetype:mime},{quoted: message.data});
