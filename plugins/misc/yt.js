@@ -101,7 +101,7 @@ for (let server of servers){
     });
 }
 module.exports = {
-  yt,
+  yt, dlSong 
   ytIdRegex,
   downloadYT,
   servers: ['en154','en136', 'id4', 'en60', 'en61', 'en68']
