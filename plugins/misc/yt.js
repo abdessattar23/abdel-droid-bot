@@ -14,7 +14,8 @@ function post(url, formdata) {
 }
 const ytIdRegex = /(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/
 async function yt(url, quality, type, bitrate, server = 'en68') {
-  let ytId = ytIdRegex.exec(url)
+  try {
+let ytId = ytIdRegex.exec(url)
   url = 'https://youtu.be/' + ytId[1]
   let res = await post(`https://www.y2mate.com/mates/${server}/analyze/ajax`, {
     url,
@@ -66,6 +67,9 @@ async function yt(url, quality, type, bitrate, server = 'en68') {
     size: filesize,
     available:list
   }
+} catch {
+return {}
+} 
 }
 async function downloadYT(vid,type = 'video',quality = '360p'){
     return new Promise(async (resolve,reject)=>{
@@ -74,7 +78,7 @@ var format = type === 'video' ? 'mp4' : 'mp3';
 var resolution = type === 'audio' ? '128kbps' : quality;
 var end = resolution.endsWith("p") ? "p" : "kbps";
 for (let server of servers){
-    var {dl_link,thumb,title,size,available} = await yt('https://youtu.be/'+vid,resolution,format,resolution.replace(end,""),server)
+    try { var {dl_link,thumb,title,size,available} = await yt('https://youtu.be/'+vid,resolution,format,resolution.replace(end,""),server) } catch { return resolve({}) }
     if (dl_link !== "http://app.y2mate.com/download") return resolve({
         url:dl_link,
         title:title,
