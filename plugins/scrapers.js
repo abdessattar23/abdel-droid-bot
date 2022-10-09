@@ -151,7 +151,9 @@ Module({
     if (match.includes("images.app.goo")) match = (await axios(match)).data.match(/(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])/gi).filter(e=>e.endsWith("jpg")||e.endsWith("png")||e.endsWith("jpeg"))[0]
     let file = await skbuffer(match)
     let {mime} = await fromBuffer(file)
-    await message.client.sendMessage(message.jid,{document:file,mimetype:mime,fileName:"Content from "+match},{quoted});
+    if (mime.includes("png")||mime.includes("jpeg")) return await message.send(file,"image",{quoted})
+    if (mime.includes("video")) return await message.send(file,"video",{quoted})
+    await message.client.sendMessage(message.jid,{document:file,mimetype:mime,fileName:"Content from "+match.split("/")[2]},{quoted});
 }));
 Module({
     pattern: 'doc ?(.*)',
