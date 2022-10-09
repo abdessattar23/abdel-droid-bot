@@ -22,7 +22,7 @@ const {
   searchSong
 } = require('./misc/misc');
 const {
-    downloadYT
+    downloadYT, dlSong
   } = require('./misc/yt');
 const Lang = getString('scrapers');
 const fs = require('fs');
@@ -45,11 +45,10 @@ Module({
   if (!match[1]) return message.sendReply(Lang.NEED_TEXT_SONG)
   var link = match[1].match(/\bhttps?:\/\/\S+/gi)
   if (link !== null && getID.test(link[0])) {
-  try {
+  /*try {
      var {
       thumbnail,title,size,url
   } = await downloadYT(link[0],'audio');
-  await message.sendReply(`*Downloading:* _${title}_`)
   // Method 1: Via y2mate
   if (url!== "http://app.y2mate.com/download"){
   await fs.writeFileSync('./song.mp3',await skbuffer(url))
@@ -61,13 +60,17 @@ Module({
       quoted: message.data
   });  
 }
-} catch {
+} catch {*/
   // Method 2: Direct Download from YT
-  var song = await getSong(link[0]);
+  const core = require('youtubei.js');
+  const yt = await new core({ gl: 'US' });
+  var {title} = await yt.getDetails(link[0].match(getID)[1]);
+  await message.sendReply(`*Downloading:* _${title}_`)
+  var song = await dlSong(link[0].match(getID)[1]);
   ffmpeg(song)
  .save('./song.mp3')
  .on('end', async () => {
-  var song = await addInfo('./song.mp3',title,BOT_INFO.split(";")[0],"Raganork audio downloader",await skbuffer(thumbnail))
+  var song = await addInfo('./song.mp3',title,BOT_INFO.split(";")[0],"Raganork audio downloader",await skbuffer(`https://i3.ytimg.com/vi/${link[0].match(getID)[1]}/maxresdefault.jpg`))
   return await message.client.sendMessage(message.jid, {
       audio:song,
       mimetype: 'audio/mp4'
@@ -75,7 +78,7 @@ Module({
       quoted: message.data
   });
 });    
-  }}
+  }//}
   var myid = message.client.user.id.split("@")[0].split(":")[0]
   let sr = await searchYT(match[1]);
   sr = sr.videos;
