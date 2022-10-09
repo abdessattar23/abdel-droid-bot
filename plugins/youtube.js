@@ -6,6 +6,7 @@ Raganork MD - Sourav KL11
 const {
   Module
 } = require('../main');
+const fs = require("fs");
 const {
   MODE,
   HANDLERS,
@@ -45,7 +46,7 @@ Module({
   if (!match[1]) return message.sendReply(Lang.NEED_TEXT_SONG)
   var link = match[1].match(/\bhttps?:\/\/\S+/gi)
   if (link !== null && getID.test(link[0])) {
-  /*try {
+  try {
      var {
       thumbnail,title,size,url
   } = await downloadYT(link[0],'audio');
@@ -60,7 +61,7 @@ Module({
       quoted: message.data
   });  
 }
-} catch {*/
+} catch {
   // Method 2: Direct Download from YT
   const core = require('youtubei.js');
   const yt = await new core({ gl: 'US' });
@@ -78,7 +79,7 @@ Module({
       quoted: message.data
   });
 });    
-  }//}
+  }}
   var myid = message.client.user.id.split("@")[0].split(":")[0]
   let sr = await searchYT(match[1]);
   sr = sr.videos;
