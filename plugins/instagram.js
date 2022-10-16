@@ -129,7 +129,7 @@ Module({
       rows: StoryData
   }];
   const listMessage = {
-      text: " "
+      text: " ",
       footer: "_Total stories: " + res.length+"_",
       title: "_Download your stories_",
       buttonText: "View all",
