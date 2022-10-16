@@ -37,7 +37,7 @@ let sourav = setting.MODE == 'public' ? false : true
 Module({
     pattern: 'insta ?(.*)',
     fromMe: sourav,
-    desc: 'Instagram post downloader',
+    desc: 'Instagram post/reel/tv/highlights downloader',
     usage: 'insta link or reply to a link',
     use: 'download'
 }, (async (msg, query) => {
@@ -114,15 +114,14 @@ Module({
     if (user && user.includes("/reel/") || user.includes("/tv/") || user.includes("/p/")) return;
     if (!user) return await msg.sendReply(need_acc_s);
     if (/\bhttps?:\/\/\S+/gi.test(user)) user = user.match(/\bhttps?:\/\/\S+/gi)[0]
-    var unam = user.startsWith('https') ? user.split('/')[4] : user
-    try { var res = await story(user) } catch {return await msg.sendReply("*Sorry, server error*")}
-    var StoryData = []
-  
+    var unam = !user.startsWith('https') ? `https://instagram.com/stories/${user}/100` : user
+    try { var res = await downloadGram(unam) } catch {return await msg.sendReply("*_Sorry, server error_*")}
+    var StoryData = [];
     for (var i in res){
     StoryData.push({
       title: "Story "+Math.floor(parseInt(i)+1),
-      description: "Type: "+res[i].type,
-      rowId: "igs "+msg.myjid+" "+user+" "+i
+      description: res[i].includes("mp4")?"Video":"Photo",
+      rowId: `${setting.HANDLERS !== 'false'? setting.HANDLERS.split("")[0]:""}upload ${res[i]}`
   })
   }
   const sections = [{
@@ -130,7 +129,7 @@ Module({
       rows: StoryData
   }];
   const listMessage = {
-      text: "_Account:_ "+unam,
+      text: " "
       footer: "_Total stories: " + res.length+"_",
       title: "_Download your stories_",
       buttonText: "View all",
