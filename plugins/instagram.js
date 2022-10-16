@@ -113,9 +113,8 @@ Module({
     var user = query[1] !== '' ? query[1] : msg.reply_message.text;
     if (user && user.includes("/reel/") || user.includes("/tv/") || user.includes("/p/")) return;
     if (!user) return await msg.sendReply(need_acc_s);
-    if (/\bhttps?:\/\/\S+/gi.test(user)) user = user.match(/\bhttps?:\/\/\S+/gi)[0]
-    var unam = !user.startsWith('https') ? `https://instagram.com/stories/${user}/100` : user
-    try { var res = await downloadGram(unam) } catch {return await msg.sendReply("*_Sorry, server error_*")}
+    user = !/\bhttps?:\/\/\S+/gi.test(user) ? `https://instagram.com/stories/${user}/` : user.match(/\bhttps?:\/\/\S+/gi)[0]
+     try { var res = await downloadGram(user) } catch {return await msg.sendReply("*_Sorry, server error_*")}
     var StoryData = [];
     for (var i in res){
     StoryData.push({
@@ -129,9 +128,9 @@ Module({
       rows: StoryData
   }];
   const listMessage = {
-      text: " ",
+      text: "_Download your stories_",
       footer: "_Total stories: " + res.length+"_",
-      title: "_Download your stories_",
+      title: " ",
       buttonText: "View all",
       sections
   }
