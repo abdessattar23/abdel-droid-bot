@@ -50,7 +50,7 @@ Module({
     }, {
         quoted: msg.data
     })
-    var getid = /(?:https?:\/\/)?(?:www\.)?(?:instagram\.com(?:\/.+?)?\/(p|reel|tv)\/)([\w-]+)(?:\/)?(\?.*)?$/
+    var getid = /(?:https?:\/\/)?(?:www\.)?(?:instagram\.com(?:\/.+?)?\/(p|s|reel|tv)\/)([\w-]+)(?:\/)?(\?.*)?$/
     var url = getid.exec(q)
     if (url != null) {
         try { var res = await downloadGram(url[0]) } catch { return await msg.sendReply("_Something went wrong, Please try again!_") }
