@@ -115,6 +115,7 @@ Module({
     if (!user) return await msg.sendReply(need_acc_s);
     user = !/\bhttps?:\/\/\S+/gi.test(user) ? `https://instagram.com/stories/${user}/` : user.match(/\bhttps?:\/\/\S+/gi)[0]
      try { var res = await downloadGram(user) } catch {return await msg.sendReply("*_Sorry, server error_*")}
+    if (!res) return await msg.sendReply("*_User has no stories!_*")
     var StoryData = [];
     for (var i in res){
     StoryData.push({
