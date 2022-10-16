@@ -53,7 +53,7 @@ Module({
     var getid = /(?:https?:\/\/)?(?:www\.)?(?:instagram\.com(?:\/.+?)?\/(p|reel|tv)\/)([\w-]+)(?:\/)?(\?.*)?$/
     var url = getid.exec(q)
     if (url != null) {
-        try { var res = await downloadGram(url[0]) } catch { return await msg.sendReply("_Broken link! Try another one._") }
+        try { var res = await downloadGram(url[0]) } catch { return await msg.sendReply("_Something went wrong, Please try again!_") }
         if (res == false) return await msg.sendReply("*Download failed*");
         var quoted = msg.reply_message ? msg.quoted : msg.data
         for (var i in res) {
