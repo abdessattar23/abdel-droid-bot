@@ -152,7 +152,7 @@ Module({
     try { let file = await skbuffer(match) } catch(e){
     if (e.message.includes("403")) {
     let tiny = await axios("https://tinyurl.com/api-create.php?url="+match)
-    await message.sendReply("Couldn't download that, click here to download: "+tiny.data);
+    return await message.sendReply("Couldn't download that, click here to download: "+tiny.data);
     }
     }
     let {mime} = await fromBuffer(file)
