@@ -149,7 +149,7 @@ Module({
     match = match.match(/\bhttps?:\/\/\S+/gi)[0]
     var quoted = message.reply_message ? message.quoted : message.data;
     if (match.includes("images.app.goo")) match = (await axios(match)).data.match(/(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])/gi).filter(e=>e.endsWith("jpg")||e.endsWith("png")||e.endsWith("jpeg"))[0]
-    try { let file = await skbuffer(match) } catch(e){
+    try { var file = await skbuffer(match) } catch(e){
     if (e.message.includes("403")) {
     let tiny = await axios("https://tinyurl.com/api-create.php?url="+match)
     return await message.sendReply("Couldn't download that, click here to download: "+tiny.data);
