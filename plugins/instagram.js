@@ -44,7 +44,7 @@ Module({
      var q = query[1] || msg.reply_message?.text
      if (q && (q.startsWith('l') || q.includes('youtu'))) return;
     if (!q) return await msg.sendReply("*Need instagram link*")
-    if (q.includes("stories")) return await msg.sendReply("*Use .story command!*")
+    if (q.includes("stories")) return await msg.sendReply("*_Use .story command!_*")
     if (q && !q.includes('instagram.com')) return await msg.client.sendMessage(msg.jid, {
         text: need
     }, {
@@ -117,6 +117,12 @@ Module({
      try { var res = await downloadGram(user) } catch {return await msg.sendReply("*_Sorry, server error_*")}
     if (!res) return await msg.sendReply("*_User has no stories!_*")
     var StoryData = [];
+    if (res.length<3){
+    for (var i in res){
+    await msg.sendReply({url: res[i]},res[i].includes("mp4")?"video":"image")
+    }
+    }
+    else {
     for (var i in res){
     StoryData.push({
       title: "Story "+Math.floor(parseInt(i)+1),
@@ -136,6 +142,7 @@ Module({
       sections
   }
   await msg.client.sendMessage(msg.jid, listMessage)
+}
 }));
 Module({
     pattern: 'pin ?(.*)',
