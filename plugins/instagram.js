@@ -74,8 +74,8 @@ Module({
      if (!q) return await msg.sendReply("*Need Facebook link*")
      if (!q.includes("!")){
 const buttons = [
-  {buttonId: hnd+'fb '+'!hd', buttonText: {displayText: 'HD'}, type: 1},
-  {buttonId: hnd+'fb '+'!sd', buttonText: {displayText: 'SD'}, type: 1}
+  {buttonId: hnd+'fb '+q+' !hd', buttonText: {displayText: 'HD'}, type: 1},
+  {buttonId: hnd+'fb '+q+' !sd', buttonText: {displayText: 'SD'}, type: 1}
  ]
 const buttonMessage = {
     text: "*Select video quality*",
