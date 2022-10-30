@@ -34,6 +34,7 @@ var need_acc = "*_Need an instagram username!_*";
 var fail = "*_Download failed! Check your link and try again_*";
 var need_acc_s = "_Need an instagram username or link!_";
 let sourav = setting.MODE == 'public' ? false : true
+let hnd = setting.HANDLERS !== 'false'? setting.HANDLERS.split("")[0]:"";
 Module({
     pattern: 'insta ?(.*)',
     fromMe: sourav,
@@ -70,11 +71,24 @@ Module({
 }, (async (msg, query) => {
      var q = !msg.reply_message.message ? query[1] : msg.reply_message.message
      if (/\bhttps?:\/\/\S+/gi.test(q)) q = q.match(/\bhttps?:\/\/\S+/gi)[0]
-     if (!q) return await msg.sendReply("*Need fb link*")
+     if (!q) return await msg.sendReply("*Need Facebook link*")
+     if (!q.includes("!")){
+const buttons = [
+  {buttonId: hnd+'fb '+'!hd', buttonText: {displayText: 'HD'}, type: 1},
+  {buttonId: hnd+'fb '+'!sd', buttonText: {displayText: 'SD'}, type: 1}
+ ]
+const buttonMessage = {
+    text: "*Select video quality*",
+    footer: '',
+    buttons: buttons,
+    headerType: 1
+}
+ await msg.client.sendMessage(msg.jid, buttonMessage,{quoted:msg.data})
+     }
+    if (q.includes("!")){
      var res = await fb(q);
-     var video = await skbuffer(res.link_high);
-     await msg.sendVideoTemplate(video,"*Facebook Downloader*","Click here to download HD video",
-     [{urlButton: {displayText: 'HD Video',url: res.link_normal}}])
+     return await msg.sendReply({url: res[q.split("!")[1]]},"video")
+     }
         }));
 Module({
     pattern: 'ig ?(.*)',
@@ -127,7 +141,7 @@ Module({
     StoryData.push({
       title: "Story "+Math.floor(parseInt(i)+1),
       description: res[i].includes("mp4")?"Video":"Photo",
-      rowId: `${setting.HANDLERS !== 'false'? setting.HANDLERS.split("")[0]:""}upload ${res[i]}`
+      rowId: `${hnd}upload ${res[i]}`
   })
   }
   const sections = [{
