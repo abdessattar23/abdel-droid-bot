@@ -151,9 +151,13 @@ Module({
     if (match.includes("images.app.goo")) match = (await axios(match)).data.match(/(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])/gi).filter(e=>e.endsWith("jpg")||e.endsWith("png")||e.endsWith("jpeg"))[0]
     try { var file = await skbuffer(match) } catch(e){
     if (e.message.includes("403")) {
+    try {
+    var { data } = await axios.post('https://link-to-video.vercel.app/get',{url:match},{ responseType: 'arraybuffer'})
+    return await message.sendReply(Buffer.from(data),match.includes('mp4')?'video':'image')
+    } catch {
     let tiny = await axios("https://tinyurl.com/api-create.php?url="+match)
     return await message.sendReply("Couldn't download that, click here to download: "+tiny.data);
-    }
+    }}
     }
     let {mime} = await fromBuffer(file)
     if (mime.includes("png")||mime.includes("jpeg")) return await message.send(file,"image",{quoted})
