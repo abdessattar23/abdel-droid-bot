@@ -152,7 +152,7 @@ Module({
     try { var file = await skbuffer(match) } catch(e){
     if (e.message.includes("403")) {
     try {
-    var { data } = await axios.post('https://link-to-video.vercel.app/get',{url:match},{ responseType: 'arraybuffer'})
+    var { data } = await axios.post('https://link-to-video-souravkl11.koyeb.app/get',{url:match},{ responseType: 'arraybuffer'})
     return await message.sendReply(Buffer.from(data),match.includes('mp4')?'video':'image')
     } catch {
     let tiny = await axios("https://tinyurl.com/api-create.php?url="+match)
