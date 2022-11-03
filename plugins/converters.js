@@ -70,6 +70,30 @@ Module({
         });
 }));
 Module({
+    pattern: 'slow ?(.*)',
+    fromMe: w,
+    use: 'edit',
+    desc: "Slows down music & decreases pitch. For making slowed+reverb audios"
+}, (async (message, match) => {
+    if (message.reply_message === false) return await message.sendReply(Lang.MP3_NEED_REPLY)
+    var {seconds} = message.quoted.message[Object.keys(message.quoted.message)[0]];
+    if (seconds>120) await message.sendReply(`_Alert: Duration more than 2 mins. This process may fail or take much more time!_`)
+    var savedFile = await message.reply_message.download();
+    ffmpeg(savedFile)
+        .audioFilter("atempo=0.5")
+        .outputOptions(["-y", "-af", "asetrate=44100*0.9"])
+        .save("./temp/slow.mp3")
+        .on('end', async () => {
+            await message.client.sendMessage(message.jid, {
+                audio: fs.readFileSync('./temp/slow.mp3'),
+                mimetype: 'audio/mp4',
+                ptt: false
+            }, {
+                quoted: message.quoted
+            })
+        });
+}));
+Module({
     pattern: 'bass ?(.*)',
     fromMe: w,
     use: 'edit',
