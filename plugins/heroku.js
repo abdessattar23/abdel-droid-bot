@@ -19,7 +19,7 @@ async function sendButton(buttons,text,footer,message){
     const {
         skbuffer 
     } = require('raganork-bot');
-    const {
+    const { 
         chatBot
     } = require('./misc/misc');
     const Config = require('../config');
