@@ -17,7 +17,7 @@ async function sendButton(buttons,text,footer,message){
         setAntilink
     } = require('./misc/misc');
     const {
-        skbuffer
+        skbuffer 
     } = require('raganork-bot');
     const {
         chatBot
