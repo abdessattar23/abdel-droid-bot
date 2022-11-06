@@ -25,6 +25,7 @@ async function sendButton(buttons,text,footer,message){
     const Config = require('../config');
     const config = require('../config');
     const Heroku = require('heroku-client');
+    const fs = require('fs');
     const got = require('got');
     const {
         getString
