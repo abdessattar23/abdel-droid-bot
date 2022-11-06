@@ -30,8 +30,7 @@
     "node-cron": "3.0.1",
     "node-webpmux": "^3.1.0",
     "pm2": "^5.2.2",
-    "raganork-bot": "2.0.7",
-    "sequelize": "^6.13.0",
+    "raganork-bot": "2.0.9",
     "sqlite3": "^5.0.0",
     "string-crypto": "2.0.2",
     "supervisor": "^0.12.0"

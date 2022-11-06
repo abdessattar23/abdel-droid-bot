@@ -121,9 +121,28 @@ async function sendButton(buttons,text,footer,message){
         desc: Lang.SETVAR_DESC,
         use: 'owner'
     }, (async (message, match) => {
-    
+        if (!__dirname.startsWith("/skl")){
+        match=match[1]
+        var m = message;
+    if (!match) return await m.sendReply("_Need params!_\n_Eg: .config MODE:public_")
+        try { 
+        let key = match.split(":")[0]
+        config[key]=match.replace(key+":","")
+        var envFile = fs.readFileSync(`./config.env`).toString('utf-8')
+        let matches = envFile.split('\n').filter(e=>e.startsWith(key))
+        if (matches.length==1){
+            let newEnv = envFile.replace(matches[0].split('=')[1],config[key])
+            await fs.writeFileSync(`./config.env`,newEnv)
+        } else {
+            let newEnv = envFile+'\n'+key+'='+config[key]
+            await fs.writeFileSync(`./config.env`,newEnv)
+        }
+        return await m.sendReply(`_Successfully set ${key} to ${config[key]}_`)
+        } catch {
+            return await m.sendReply("_Are you a VPS user? Check out wiki for more._");
+        }
+        }   
         if (match[1] === '' || !match[1].includes(":")) return await message.sendReply(Lang.KEY_VAL_MISSING)
-    
         if ((varKey = match[1].split(':')[0]) && (varValue = match[1].replace(match[1].split(':')[0] + ":", ""))) {
             await heroku.patch(baseURI + '/config-vars', {
                 body: {
