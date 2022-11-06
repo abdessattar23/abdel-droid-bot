@@ -124,7 +124,7 @@ async function sendButton(buttons,text,footer,message){
         if (!__dirname.startsWith("/skl")){
         match=match[1]
         var m = message;
-    if (!match) return await m.sendReply("_Need params!_\n_Eg: .config MODE:public_")
+    if (!match) return await m.sendReply("_Need params!_\n_Eg: .setvar MODE:public_")
         try { 
         let key = match.split(":")[0]
         config[key]=match.replace(key+":","")
@@ -138,8 +138,8 @@ async function sendButton(buttons,text,footer,message){
             await fs.writeFileSync(`./config.env`,newEnv)
         }
         return await m.sendReply(`_Successfully set ${key} to ${config[key]}_`)
-        } catch {
-            return await m.sendReply("_Are you a VPS user? Check out wiki for more._");
+        } catch(e){
+            return await m.sendReply("_Are you a VPS user? Check out wiki for more._\n"+e.message);
         }
         }   
         if (match[1] === '' || !match[1].includes(":")) return await message.sendReply(Lang.KEY_VAL_MISSING)
