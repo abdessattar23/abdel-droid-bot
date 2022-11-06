@@ -23,6 +23,7 @@ async function sendButton(buttons,text,footer,message){
         chatBot
     } = require('./misc/misc');
     const Config = require('../config');
+    const config = require('../config');
     const Heroku = require('heroku-client');
     const got = require('got');
     const {
