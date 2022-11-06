@@ -52,14 +52,8 @@ Module({pattern: 'updt',use: 'owner', fromMe: true,dontAddCommandList: true, des
         if (!__dirname.startsWith("/skl")){
         await require("simple-git")().reset("hard",["HEAD"])
         await require("simple-git")().pull()
-        const exec = require('child_process').exec;  
-        exec('npm update', async (err, stdout, stderr) => {  
-  if (err) {  
-    return await message.sendReply(err.message);  
-  }  
-  await message.sendReply("_Successfully updated!_")
-  process.exit(0);
-});   
+        await message.sendReply("_Successfully updated. Please manually update npm modules if applicable!_")
+        process.exit(0);    
     }
         await message.client.sendMessage(message.jid, { text:"_Started update.._"})
 
