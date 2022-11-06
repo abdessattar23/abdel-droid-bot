@@ -59,7 +59,7 @@ Module({pattern: 'updt',use: 'owner', fromMe: true,dontAddCommandList: true, des
   }  
   await message.sendReply("_Successfully updated!_")
   process.exit(0);
-});  
+});   
     }
         await message.client.sendMessage(message.jid, { text:"_Started update.._"})
 
