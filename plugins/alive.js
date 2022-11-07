@@ -31,62 +31,49 @@ Module({
   desc: 'Is bot alive?'
 }, (async (message, match) => {
   var myid = message.client.user.id.split(":")[0]
-  var buttons = [{
-    urlButton: {
-        displayText: 'Github',
-        url: 'https://github.com/souravkl11/raganork'
-    }
-}, {
-  urlButton: {
-    displayText: 'Contact Owner',
-    url: 'https://wa.me/'+BOT_INFO.split(";")[2]+'?text=*Hey+'+BOT_INFO.split(";")[1]+'*'
-    }
-}, {
-    quickReplyButton: {
-        displayText: 'All commands',
-        id: 'commands'+myid
-    }  
-}, {
-    quickReplyButton: {
-        displayText: 'Support group',
-        id: 'support'+myid
-    }
-}]
-var gc=commands.filter(a=>"group"===a.use),lgc=commands.filter(a=>"logo"===a.use),tc=commands.filter(a=>"textmaker"===a.use),oc=commands.filter(a=>"owner"===a.use),dc=commands.filter(a=>"download"===a.use),ec=commands.filter(a=>"edit"===a.use),sc=commands.filter(a=>"search"===a.use),uc=commands.filter(a=>"utility"===a.use),setarr=[...gc,...dc,...tc,...oc,...ec,...sc,...uc]
-var gmsg="",ownmsg="",dlmsg="",utilmsg="",srmsg="",tms="",lms="",edmsg="";
+  const buttons = [
+    {buttonId: 'ᴛᴇsᴛ ᴘɪɴɢ', buttonText: {displayText: 'ping '+myid}, type: 1},
+    {buttonId: 'ʙᴏᴛ ɢʀᴏᴜᴘ', buttonText: {displayText: 'support '+myid}, type: 1},
+    {buttonId: 'ᴄᴏᴍᴍᴀɴᴅs', buttonText: {displayText: 'commands '+myid}, type: 1}
+  ]
+  
+
+var gc=commands.filter(a=>"group"===a.use),lgc=commands.filter(a=>"logo"===a.use),tc=commands.filter(a=>"textmaker"===a.use),oc=commands.filter(a=>"owner"===a.use),dc=commands.filter(a=>"download"===a.use),ec=commands.filter(a=>"edit"===a.use),sc=commands.filter(a=>"search"===a.use),uc=commands.filter(a=>"utility"===a.use),oth=commands.filter(a=>!['utility','search','download','edit','owner','textmaker','logo','group'].includes(a.use)),setarr=[...gc,...dc,...tc,...oc,...ec,...sc,...uc,...oth]
+var gmsg="",ownmsg="",dlmsg="",utilmsg="",srmsg="",tms="",lms="",edmsg="",othermsg="";
 for (var i in setarr) {
 if (setarr[i].use === 'group') {
   gmsg += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i].pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
 }
-if (setarr[i].use === 'download') {
+else if (setarr[i].use === 'download') {
   dlmsg += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i].pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
 }
-if (setarr[i].use === 'textmaker') {
+else if (setarr[i].use === 'textmaker') {
   tms += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i].pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
 }
-if (setarr[i].use === 'owner') {
+else if (setarr[i].use === 'owner') {
   ownmsg += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i].pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
 }
-if (setarr[i].use === 'edit') {
+else if (setarr[i].use === 'edit') {
   edmsg += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i].pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
 }
-if (setarr[i].use === 'search') {
+else if (setarr[i].use === 'search') {
   srmsg += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i].pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
 }
-if (setarr[i].use === 'utility') {
+else if (setarr[i].use === 'utility') {
   utilmsg += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i].pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
+}
+else{
+  othermsg += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i].pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
 }
 }
   var menu = `╭═══〘 ${BOT_INFO.split(";")[0]} 〙═══⊷❍
 ┃❉╭──────────────
 ┃❉│
 ┃❉│ Owner : ${BOT_INFO.split(";")[1]}
-┃❉│ User : ${message.senderName}
+┃❉│ User : ${message.senderName.replace(/\\n/g,'')}
 ┃❉│ Mode : ${MODE}
-┃❉│ Server : ${config.HEROKU.APP_NAME}
-┃❉│ Total RAM: ${total}
-┃❉│ Available RAM: ${used}
-┃❉│ Disk Space: 620 GB
+┃❉│ Server : ${__dirname.startsWith('/skl')?"Heroku":"Private (VPS)"}
+┃❉│ Available RAM: ${used} of ${total}
 ┃❉│ Version: ${config.VERSION}
 ┃❉│
 ┃❉│
@@ -112,7 +99,7 @@ ${dlmsg}
 ╭════〘 Logo Maker 〙════⊷❍
 ┃❉╭─────────────────
 ┃❉│ 
-┃❉│ logo
+┃❉│ .logo
 ${tms}
 ┃❉╰─────────────────
 ╰══════════════════⊷❍
@@ -133,8 +120,20 @@ ${edmsg}
 ┃❉│ 
 ${srmsg}
 ┃❉╰─────────────────
+╰══════════════════⊷❍
+╭════〘 Others 〙════⊷❍
+┃❉╭─────────────────
+┃❉│ 
+${othermsg}
+┃❉╰─────────────────
 ╰══════════════════⊷❍`
-return await message.sendImageTemplate(await skbuffer(BOT_INFO.split(";")[3]),FancyRandom(menu),"All rights reserved "+BOT_INFO.split(";")[0],buttons);
+return await message.client.sendMessage(message.jid,{
+  image: await skbuffer(BOT_INFO.split(";")[3]||`https://picsum.photos/800/500`),
+  caption: FancyRandom(menu),
+  footer: BOT_INFO.split(";")[0],
+  buttons: buttons,
+  headerType: 4
+})
 }))
 Module({
   pattern: 'alive',
@@ -174,7 +173,7 @@ Module({
   })
   const end = new Date().getTime()
   await message.client.sendMessage(message.jid, {
-      text: '*ʀᴇsᴘᴏɴsᴇ ɪɴ ' + (end - start) + ' _ᴍs_*'
+      text: '*ʟᴀᴛᴇɴᴄʏ: ' + (end - start) + ' _ᴍs_*'
   }, {
       quoted: message.data
   })
