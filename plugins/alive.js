@@ -63,7 +63,7 @@ else if (setarr[i].use === 'utility') {
   utilmsg += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i].pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
 }
 else{
-  othermsg += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i].pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
+  othermsg += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i]?.pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
 }
 }
   var menu = `╭═══〘 ${BOT_INFO.split(";")[0]} 〙═══⊷❍
