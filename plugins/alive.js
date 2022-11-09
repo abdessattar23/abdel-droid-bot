@@ -32,101 +32,59 @@ Module({
 }, (async (message, match) => {
   var myid = message.client.user.id.split(":")[0]
   const buttons = [
-    {buttonId: 'ᴛᴇsᴛ ᴘɪɴɢ', buttonText: {displayText: 'ping '+myid}, type: 1},
-    {buttonId: 'ʙᴏᴛ ɢʀᴏᴜᴘ', buttonText: {displayText: 'support '+myid}, type: 1},
-    {buttonId: 'ᴄᴏᴍᴍᴀɴᴅs', buttonText: {displayText: 'commands '+myid}, type: 1}
+    {buttonId: 'ping '+myid, buttonText: {displayText:'ᴛᴇsᴛ ᴘɪɴɢ'}, type: 1},
+    {buttonId: 'support '+myid, buttonText: {displayText:'ʙᴏᴛ ɢʀᴏᴜᴘ' }, type: 1},
+    {buttonId: 'commands '+myid, buttonText: {displayText: 'ᴄᴏᴍᴍᴀɴᴅs'}, type: 1}
   ]
   
-
-var gc=commands.filter(a=>"group"===a.use),lgc=commands.filter(a=>"logo"===a.use),tc=commands.filter(a=>"textmaker"===a.use),oc=commands.filter(a=>"owner"===a.use),dc=commands.filter(a=>"download"===a.use),ec=commands.filter(a=>"edit"===a.use),sc=commands.filter(a=>"search"===a.use),uc=commands.filter(a=>"utility"===a.use),oth=commands.filter(a=>!['utility','search','download','edit','owner','textmaker','logo','group'].includes(a.use)),setarr=[...gc,...dc,...tc,...oc,...ec,...sc,...uc,...oth].filter(e=>e.pattern);
-var gmsg="",ownmsg="",dlmsg="",utilmsg="",srmsg="",tms="",lms="",edmsg="",othermsg="";
-for (var i in setarr) {
-  if (setarr[i].use === 'group') {
-  gmsg += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i].pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
-}
-else if (setarr[i].use === 'download') {
-  dlmsg += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i].pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
-}
-else if (setarr[i].use === 'textmaker') {
-  tms += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i].pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
-}
-else if (setarr[i].use === 'owner') {
-  ownmsg += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i].pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
-}
-else if (setarr[i].use === 'edit') {
-  edmsg += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i].pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
-}
-else if (setarr[i].use === 'search') {
-  srmsg += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i].pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
-}
-else if (setarr[i].use === 'utility') {
-  utilmsg += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i].pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
-}
-else{
-  othermsg += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i]?.pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
-}
-}
+  function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    return array;
+    }    
+  let use_ = commands.map(e=>e.use)
+  const others = (use) => { return use == '' ? 'others' : use}
+  let types = shuffleArray(use_.filter((item,index) => use_.indexOf(item) === index).map(others))
+  var cmd_obj = {}
+  for (var command of commands){
+    let type_det = types.includes(command.use)?command.use:"others";
+    if (!cmd_obj[type_det]?.length) cmd_obj[type_det] = []
+    let cmd_name = command.pattern?.toString().match(/(\W*)([A-Za-z1234567890 ]*)/)[2]
+    if (cmd_name) cmd_obj[type_det].push(cmd_name)
+  }
+  let final = ''
+  var i = 0;
+  for (var n of types){
+    for (var x of cmd_obj[n]){
+        i=i+1
+        var newn = n.charAt(0).toUpperCase()+n.replace(n.charAt(0),"")
+        final+=`${final.includes(newn)?'':'\n\n╭════〘 *_'+newn+"_* 〙════⊷❍\n"}\n┃✰│ _${i}._ ${x}${cmd_obj[n]?.indexOf(x)===(cmd_obj[n]?.length-1) ?`\n┃✰╰─────────────────❍\n╰══════════════════⊷❍`:''}`
+    }
+  }
+  let cmdmenu = final.trim();
   var menu = `╭═══〘 ${BOT_INFO.split(";")[0]} 〙═══⊷❍
-┃❉╭──────────────
-┃❉│
-┃❉│ Owner : ${BOT_INFO.split(";")[1]}
-┃❉│ User : ${message.senderName.replace(/\\n/g,'')}
-┃❉│ Mode : ${MODE}
-┃❉│ Server : ${__dirname.startsWith('/skl')?"Heroku":"Private (VPS)"}
-┃❉│ Available RAM: ${used} of ${total}
-┃❉│ Version: ${config.VERSION}
-┃❉│
-┃❉│
-┃❉│  ▎▍▌▌▉▏▎▌▉▐▏▌▎
-┃❉│  ▎▍▌▌▉▏▎▌▉▐▏▌▎
-┃❉│   ${BOT_INFO.split(";")[0]}
-┃❉│ 
-┃❉╰───────────────
+┃✰╭──────────────
+┃✰│
+┃✰│ Owner : ${BOT_INFO.split(";")[1]}
+┃✰│ User : ${message.senderName.replace(/\\n/g,'')}
+┃✰│ Mode : ${MODE}
+┃✰│ Server : ${__dirname.startsWith('/skl')?"Heroku":"Private (VPS)"}
+┃✰│ Available RAM: ${used} of ${total}
+┃✰│ Version: ${config.VERSION}
+┃✰│
+┃✰│
+┃✰│  ▎▍▌▌▉▏▎▌▉▐▏▌▎
+┃✰│  ▎▍▌▌▉▏▎▌▉▐▏▌▎
+┃✰│   ${BOT_INFO.split(";")[0]}
+┃✰│ 
+┃✰╰───────────────
 ╰═════════════════⊷
 
-╭════〘 Group 〙════⊷❍
-┃❉╭─────────────────
-┃❉│ 
-${gmsg}
-┃❉╰─────────────────
-╰══════════════════⊷❍
-╭════〘 Download 〙════⊷❍
-┃❉╭─────────────────
-┃❉│ 
-${dlmsg}
-┃❉╰─────────────────
-╰══════════════════⊷❍
-╭════〘 Logo Maker 〙════⊷❍
-┃❉╭─────────────────
-┃❉│ 
-┃❉│ .logo
-${tms}
-┃❉╰─────────────────
-╰══════════════════⊷❍
-╭════〘 Owner 〙════⊷❍
-┃❉╭─────────────────
-┃❉│ 
-${ownmsg}
-┃❉╰─────────────────
-╰══════════════════⊷❍
-╭════〘 Edit 〙════⊷❍
-┃❉╭─────────────────
-┃❉│ 
-${edmsg}
-┃❉╰─────────────────
-╰══════════════════⊷❍
-╭════〘 Search 〙════⊷❍
-┃❉╭─────────────────
-┃❉│ 
-${srmsg}
-┃❉╰─────────────────
-╰══════════════════⊷❍
-╭════〘 Others 〙════⊷❍
-┃❉╭─────────────────
-┃❉│ 
-${othermsg}
-┃❉╰─────────────────
-╰══════════════════⊷❍`
+${cmdmenu}`
 return await message.client.sendMessage(message.jid,{
   image: await skbuffer(BOT_INFO.split(";")[3]||`https://picsum.photos/800/500`),
   caption: FancyRandom(menu),
