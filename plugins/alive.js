@@ -62,7 +62,7 @@ Module({
     for (var x of cmd_obj[n]){
         i=i+1
         var newn = n.charAt(0).toUpperCase()+n.replace(n.charAt(0),"")
-        final+=`${final.includes(newn)?'':'\n\n╭════〘 *_'+newn+"_* 〙════⊷❍\n"}\n┃✰│ _${i}._ ${x}${cmd_obj[n]?.indexOf(x)===(cmd_obj[n]?.length-1) ?`\n┃✰╰─────────────────❍\n╰══════════════════⊷❍`:''}`
+        final+=`${final.includes(newn)?'':'\n\n╭════〘 *_'+newn+"_* 〙════⊷❍\n"}\n┃✰│ _${i}. ${x}_${cmd_obj[n]?.indexOf(x)===(cmd_obj[n]?.length-1) ?`\n┃✰╰─────────────────❍\n╰══════════════════⊷❍`:''}`
     }
   }
   let cmdmenu = final.trim();
@@ -70,7 +70,7 @@ Module({
 ┃✰╭──────────────
 ┃✰│
 ┃✰│ Owner : ${BOT_INFO.split(";")[1]}
-┃✰│ User : ${message.senderName.replace(/\\n/g,'')}
+┃✰│ User : ${message.senderName.replace( /[\r\n]+/gm, "" )}
 ┃✰│ Mode : ${MODE}
 ┃✰│ Server : ${__dirname.startsWith('/skl')?"Heroku":"Private (VPS)"}
 ┃✰│ Available RAM: ${used} of ${total}
