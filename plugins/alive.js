@@ -38,10 +38,10 @@ Module({
   ]
   
 
-var gc=commands.filter(a=>"group"===a.use),lgc=commands.filter(a=>"logo"===a.use),tc=commands.filter(a=>"textmaker"===a.use),oc=commands.filter(a=>"owner"===a.use),dc=commands.filter(a=>"download"===a.use),ec=commands.filter(a=>"edit"===a.use),sc=commands.filter(a=>"search"===a.use),uc=commands.filter(a=>"utility"===a.use),oth=commands.filter(a=>!['utility','search','download','edit','owner','textmaker','logo','group'].includes(a.use)),setarr=[...gc,...dc,...tc,...oc,...ec,...sc,...uc,...oth]
+var gc=commands.filter(a=>"group"===a.use),lgc=commands.filter(a=>"logo"===a.use),tc=commands.filter(a=>"textmaker"===a.use),oc=commands.filter(a=>"owner"===a.use),dc=commands.filter(a=>"download"===a.use),ec=commands.filter(a=>"edit"===a.use),sc=commands.filter(a=>"search"===a.use),uc=commands.filter(a=>"utility"===a.use),oth=commands.filter(a=>!['utility','search','download','edit','owner','textmaker','logo','group'].includes(a.use)),setarr=[...gc,...dc,...tc,...oc,...ec,...sc,...uc,...oth].filter(e=>e.pattern);
 var gmsg="",ownmsg="",dlmsg="",utilmsg="",srmsg="",tms="",lms="",edmsg="",othermsg="";
 for (var i in setarr) {
-if (setarr[i].use === 'group') {
+  if (setarr[i].use === 'group') {
   gmsg += `┃❉│ ${Math.floor(parseInt(i)+1)}. ${setarr[i].pattern.toString().match(/(\W*)([A-Za-zğüşıiöç1234567890 ]*)/)[2]} \n`
 }
 else if (setarr[i].use === 'download') {
@@ -168,13 +168,30 @@ Module({
   desc: 'Measures ping'
 }, (async (message, match) => {
   const start = new Date().getTime()
-  await message.client.sendMessage(message.jid, {
-      text: '*❮ ᴛᴇsᴛɪɴɢ ᴘɪɴɢ ❯*'
-  })
+  await message.send('*❮ ᴛᴇsᴛɪɴɢ ᴘɪɴɢ ❯*')
   const end = new Date().getTime()
-  await message.client.sendMessage(message.jid, {
-      text: '*ʟᴀᴛᴇɴᴄʏ: ' + (end - start) + ' _ᴍs_*'
-  }, {
-      quoted: message.data
-  })
+  await message.sendReply('*ʟᴀᴛᴇɴᴄʏ: ' + (end - start) + ' _ᴍs_*')
+}));
+Module({
+  pattern: 'uptime',
+  fromMe: w,
+  use: 'utility',
+  desc: 'Shows system (OS) /process uptime'
+}, (async (message, match) => {
+  var ut_sec = require("os").uptime(); 
+  var ut_min = ut_sec/60; 
+  var ut_hour = ut_min/60; 
+  ut_sec = Math.floor(ut_sec); 
+  ut_min = Math.floor(ut_min); 
+  ut_hour = Math.floor(ut_hour); 
+  ut_hour = ut_hour%60; 
+  ut_min = ut_min%60; 
+  ut_sec = ut_sec%60; 
+  var uptime_os = (`_System (OS) : ${ut_hour} Hour(s), ${ut_min} minute(s) and ${ut_sec} second(s)_`)  
+  var sec_num = parseInt(process.uptime(), 10);
+  var hours   = Math.floor(sec_num / 3600);
+  var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+  var seconds = sec_num - (hours * 3600) - (minutes * 60);
+  var uptime_process = (`_Process : ${hours} Hour(s), ${minutes} minute(s) and ${seconds} second(s)_`)  
+  return await message.sendReply(`                 _*[ UP-TIME ]*_\n\n${uptime_os}\n${uptime_process}`);
 }));
