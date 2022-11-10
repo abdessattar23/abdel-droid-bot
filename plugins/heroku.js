@@ -193,6 +193,7 @@ async function sendButton(buttons,text,footer,message){
     }, (async (message, match) => {
     
         if (match[1] === '') return await message.sendReply(Lang.NOT_FOUND)
+        if (!__dirname.startsWith("/skl")) return await message.sendReply(config[match[1].trim()]?.toString() || "Not found")
         await heroku.get(baseURI + '/config-vars').then(async (vars) => {
             for (vr in vars) {
                 if (match[1].trim() == vr) return await message.sendReply(vars[vr])
