@@ -31,6 +31,7 @@ Module({
   desc: 'Is bot alive?'
 }, (async (message, match) => {
   var myid = message.client.user.id.split(":")[0]
+  const star = ['✦','✯','✯','✰','◬1','✵'].random();
   const buttons = [
     {buttonId: 'ping '+myid, buttonText: {displayText:'ᴛᴇsᴛ ᴘɪɴɢ'}, type: 1},
     {buttonId: 'support '+myid, buttonText: {displayText:'ʙᴏᴛ ɢʀᴏᴜᴘ' }, type: 1},
@@ -62,26 +63,26 @@ Module({
     for (var x of cmd_obj[n]){
         i=i+1
         var newn = n.charAt(0).toUpperCase()+n.replace(n.charAt(0),"")
-        final+=`${final.includes(newn)?'':'\n\n╭════〘 *_'+newn+"_* 〙════⊷❍\n"}\n┃✰│ _${i}. ${x.trim()}_${cmd_obj[n]?.indexOf(x)===(cmd_obj[n]?.length-1) ?`\n┃✰╰─────────────────❍\n╰══════════════════⊷❍`:''}`
+        final+=`${final.includes(newn)?'':'\n\n╭════〘 *_'+newn+"_* 〙════⊷❍\n"}\n┃${star}│ _${i}. ${x.trim()}_${cmd_obj[n]?.indexOf(x)===(cmd_obj[n]?.length-1) ?`\n┃${star}╰─────────────────❍\n╰══════════════════⊷❍`:''}`
     }
   } 
   let cmdmenu = final.trim();
   var menu = `╭═══〘 ${BOT_INFO.split(";")[0]} 〙═══⊷❍
-┃✰╭──────────────
-┃✰│
-┃✰│ Owner : ${BOT_INFO.split(";")[1]}
-┃✰│ User : ${message.senderName.replace( /[\r\n]+/gm, "" )}
-┃✰│ Mode : ${MODE}
-┃✰│ Server : ${__dirname.startsWith('/skl')?"Heroku":"Private (VPS)"}
-┃✰│ Available RAM: ${used} of ${total}
-┃✰│ Version: ${config.VERSION}
-┃✰│
-┃✰│
-┃✰│  ▎▍▌▌▉▏▎▌▉▐▏▌▎
-┃✰│  ▎▍▌▌▉▏▎▌▉▐▏▌▎
-┃✰│   ${BOT_INFO.split(";")[0]}
-┃✰│ 
-┃✰╰───────────────
+┃${star}╭──────────────
+┃${star}│
+┃${star}│ Owner : ${BOT_INFO.split(";")[1]}
+┃${star}│ User : ${message.senderName.replace( /[\r\n]+/gm, "" )}
+┃${star}│ Mode : ${MODE}
+┃${star}│ Server : ${__dirname.startsWith('/skl')?"Heroku":"Private (VPS)"}
+┃${star}│ Available RAM: ${used} of ${total}
+┃${star}│ Version: ${config.VERSION}
+┃${star}│
+┃${star}│
+┃${star}│  ▎▍▌▌▉▏▎▌▉▐▏▌▎
+┃${star}│  ▎▍▌▌▉▏▎▌▉▐▏▌▎
+┃${star}│   ${BOT_INFO.split(";")[0]}
+┃${star}│ 
+┃${star}╰───────────────
 ╰═════════════════⊷
 
 ${cmdmenu}`
