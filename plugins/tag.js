@@ -9,7 +9,6 @@ const {readFileSync} = require('fs');
 const {saveMessage} = require('./misc/saveMessage');
 const Lang = getString('group');
 Module({pattern: 'tag|hidetag ?(.*)',use: 'group', fromMe: true, desc: Lang.TAGALL_DESC}, (async (message, match) => {
-if (!match[1] && !message.jid.endsWith('@g.us')) return await message.send(Lang.GROUP_COMMAND)
 if (match[1] === "all" || (match[1] && match[1].startsWith("ad")) || !message.reply_message) return;
 var target = message.jid
 if (match[1] && match[1].endsWith("us") && /[0-9]+(-[0-9]+|)(@g.us|@s.whatsapp.net)/g.test(match[1])) target = [...match[1].match(/[0-9]+(-[0-9]+|)(@g.us|@s.whatsapp.net)/g)];
