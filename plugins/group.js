@@ -16,6 +16,21 @@ const {
     Module
 } = require('../main')
 Module({
+    pattern: 'wapoll ?(.*)',
+    fromMe: true,
+    desc: "Creates poll (WhatsApp feature)",
+    use: 'group',
+    usage: '.wapoll Poll title,option,option,option'
+}, (async (message, match) => {
+    if (!message.isGroup) return await message.sendReply(Lang.GROUP_COMMAND)
+    match = match[1].split(',')
+    const buttons = [];
+    for (let i = 1; i < match.length; i++) {
+    buttons.push({optionName: match[i]})
+    }
+    return await message.client.relayMessage(message.jid, { senderKeyDistributionMessage: {groupId: message.jid}, messageContextInfo: {messageSecret: "LzBNJaq8ZGE/2hn5bUplPvecdDxTSI1qduEbbIMI5J4="}, pollCreationMessage: { name: match[0], options: buttons, selectableOptionsCount: 0 } }, {});
+}));
+    Module({
     pattern: 'kick ?(.*)',
     fromMe: true,
     desc: Lang.KICK_DESC,
