@@ -7,6 +7,7 @@ async function sendButton(buttons,text,footer,message){
     const buttonMessage = {text,footer,buttons,headerType: 1}
     return await message.client.sendMessage(message.jid, buttonMessage)
     };
+    const isVPS = !__dirname.startsWith("/skl");
     const {
         Module
     } = require('../main');
@@ -56,7 +57,7 @@ async function sendButton(buttons,text,footer,message){
         dontAddCommandList: true,
         use: 'owner'
     }, (async (message, match) => {
-    
+        if (isVPS) return await pm2.reload("Raganork");
         await message.sendReply(Lang.RESTART_MSG)
         await heroku.delete(baseURI + '/dynos').catch(async (error) => {
             await message.send(error.message)
@@ -69,7 +70,9 @@ async function sendButton(buttons,text,footer,message){
         dontAddCommandList: true,
         use: 'owner'
     }, (async (message, match) => {
-    
+        if (isVPS){
+            return await pm2.stop("Raganork");
+        }
         await heroku.get(baseURI + '/formation').then(async (formation) => {
             forID = formation[0].id;
             await message.sendReply(Lang.SHUTDOWN_MSG)
@@ -89,7 +92,7 @@ async function sendButton(buttons,text,footer,message){
         dontAddCommandList: true,
         use: 'owner'
     }, (async (message, match) => {
-    
+        if (isVPS) return await message.sendReply("_Not running on heroku!_");
         heroku.get('/account').then(async (account) => {
             url = "https://api.heroku.com/accounts/" + account.id + "/actions/get-quota"
             headers = {
@@ -123,7 +126,7 @@ async function sendButton(buttons,text,footer,message){
         desc: Lang.SETVAR_DESC,
         use: 'owner'
     }, (async (message, match) => {
-        if (!__dirname.startsWith("/skl")){
+        if (isVPS){
         match=match[1]
         var m = message;
     if (!match) return await m.sendReply("_Need params!_\n_Eg: .setvar MODE:public_")
@@ -165,7 +168,7 @@ async function sendButton(buttons,text,footer,message){
         desc: Lang.DELVAR_DESC,
         use: 'owner'
     }, (async (message, match) => {
-    
+        if (isVPS) return await message.sendReply("_Not running on heroku!_");
         if (match[1] === '') return await message.sendReply(Lang.NOT_FOUND)
         await heroku.get(baseURI + '/config-vars').then(async (vars) => {
             key = match[1].trim();
@@ -193,7 +196,7 @@ async function sendButton(buttons,text,footer,message){
     }, (async (message, match) => {
     
         if (match[1] === '') return await message.sendReply(Lang.NOT_FOUND)
-        if (!__dirname.startsWith("/skl")) return await message.sendReply(config[match[1].trim()]?.toString() || "Not found")
+        if (isVPS) return await message.sendReply(config[match[1].trim()]?.toString() || "Not found")
         await heroku.get(baseURI + '/config-vars').then(async (vars) => {
             for (vr in vars) {
                 if (match[1].trim() == vr) return await message.sendReply(vars[vr])
@@ -210,7 +213,10 @@ async function sendButton(buttons,text,footer,message){
             use: 'owner'
         },
         async (message, match) => {
-            let msg = Lang.ALL_VARS + "\n\n\n```"
+            if (isVPS) {
+                return await message.sendReply(fs.readFileSync(`./config.env`).toString('utf-8'));
+            }
+                let msg = Lang.ALL_VARS + "\n\n\n```"
             await heroku
                 .get(baseURI + "/config-vars")
                 .then(async (keys) => {
@@ -231,10 +237,16 @@ async function sendButton(buttons,text,footer,message){
         use: 'config'
     }, (async (message, match) => {
         if (match[1]!=="button_on" && match[1]!=="button_off"){
-        const buttons = [
+            var buttons = [
             {buttonId: handler+'chatbot button_on', buttonText: {displayText: 'ON'}, type: 1},
             {buttonId: handler+'chatbot button_off', buttonText: {displayText: 'OFF'}, type: 1}
         ]
+        if (isVPS){
+            buttons = [
+                {buttonId: handler+'setvar CHATBOT:on', buttonText: {displayText: 'ON'}, type: 1},
+                {buttonId: handler+'setvar CHATBOT:off', buttonText: {displayText: 'OFF'}, type: 1}
+            ]
+        }
         return await sendButton(buttons,"*ChatBot control panel*","Chatbot is currently turned "+Config.CHATBOT+" now",message)
         }
         await message.sendReply(match[1].endsWith("n")? "*Chatbot activated ✅*" : "*Chatbot de-activated ✅*");
@@ -254,7 +266,7 @@ async function sendButton(buttons,text,footer,message){
             {buttonId: handler+'setvar MODE:public', buttonText: {displayText: 'PUBLIC'}, type: 1},
             {buttonId: handler+'setvar MODE:private', buttonText: {displayText: 'PRIVATE'}, type: 1}
         ]
-        return await sendButton(buttons,"*Working mode control panel*","Bot is currently running on "+Config.MODE+" mode now",message)
+        return await sendButton(buttons,"*Mode switcher*","Current mode: "+Config.MODE,message)
     }));
     Module({
         pattern: 'antispam ?(.*)',
