@@ -31,6 +31,18 @@ Module({
     }
     await message.client.relayMessage(message.jid, { senderKeyDistributionMessage: {groupId: message.jid}, messageContextInfo: {messageSecret: "LzBNJaq8ZGE/2hn5bUplPvecdDxTSI1qduEbbIMI5J4="}, pollCreationMessage: { name: match[0], options: buttons, selectableOptionsCount: 0 } }, {});
 }));
+Module({
+    pattern: 'clear ?(.*)',
+    fromMe: true,
+    desc: "Clear chat",
+    use: 'misc'
+}, (async (message, match) => {
+    await message.client.chatModify({
+        delete: true,
+        lastMessages: [{ key: message.data.key, messageTimestamp:message.data.messageTimestamp }]
+      },message.jid)
+    return await message.send("_Chat cleared!_")  
+}));
     Module({
     pattern: 'kick ?(.*)',
     fromMe: true,
