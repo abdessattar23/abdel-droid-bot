@@ -31,7 +31,8 @@ Module({
   desc: 'Is bot alive?'
 }, (async (message, match) => {
   var myid = message.client.user.id.split(":")[0]
-  const star = ['✦','✯','✯','✰','◬','✵'].random();
+  const stars = ['✦','✯','✯','✰','◬','✵'];
+  const star = stars[Math.floor(Math.random()*stars.length)];
   const buttons = [
     {buttonId: 'ping '+myid, buttonText: {displayText:'ᴛᴇsᴛ ᴘɪɴɢ'}, type: 1},
     {buttonId: 'support '+myid, buttonText: {displayText:'ʙᴏᴛ ɢʀᴏᴜᴘ' }, type: 1},
