@@ -133,7 +133,7 @@ async function sendButton(buttons,text,footer,message){
     if (!match) return await m.sendReply("_Need params!_\n_Eg: .setvar MODE:public_")
         try { 
         let key = match.split(":")[0]
-        config[key]=match.replace(key+":","")
+        config[key]=match.replace(key+":","").replace(/\\n/g, '\n')
         var envFile = fs.readFileSync(`./config.env`).toString('utf-8')
         let matches = envFile.split('\n').filter(e=>e.startsWith(key))
         if (matches.length==1){
