@@ -49,7 +49,7 @@ Module({
     try {
         require('./' + plugin_name);
     } catch (e) {
-        fs.unlinkSync(__dirname+plugin_name + '.js')
+        fs.unlinkSync(__dirname+'/'+plugin_name + '.js')
         return await message.sendReply(Lang.INVALID_PLUGIN + e);
     }
     await Db.installPlugin(url, plugin_name);
