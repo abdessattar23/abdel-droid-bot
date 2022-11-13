@@ -341,8 +341,8 @@ Module({
         sections
     }
     return await message.client.sendMessage(message.jid, listMessage,{quoted: message.data})
-} else if ('dl_url' in res){
-  return await message.client.sendMessage(message.jid,{document: {url: res.url},fileName:res.title,mimetype:'application/x-subrip'})
+} else if ("dl_url" in res){
+  return await message.client.sendMessage(message.jid,{document: {url: res.dl_url},fileName:res.title,mimetype:'application/x-subrip'})
 } else return await message.sendReply('_No results!_');
 });
 Module({
