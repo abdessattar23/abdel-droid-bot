@@ -329,7 +329,7 @@ Module({
     var news = [];
     var res = (await axios(`https://raganork-api.souravkl11.xyz/api/subtitles?query=${match[1]}`)).data
 	if (!res) return await message.sendReply('_No results!_');
-    if (res?.length && !('dl_url' in res)){
+    if (res?.length && !res.dl_url){
     for (let i of res) {
     news.push({title: i.title,rowId:handler+'subtitle '+i.url});
     }
@@ -342,7 +342,7 @@ Module({
         sections
     }
     return await message.client.sendMessage(message.jid, listMessage,{quoted: message.data})
-} else if ("dl_url" in res){
+} else if (res.dl_url){
   return await message.client.sendMessage(message.jid,{document: {url: res.dl_url},fileName:res.title,caption:'_*File:* '+res.title.trim()+'_',mimetype:'application/x-subrip'},{quoted:message.data})
 } else return await message.sendReply('_No results!_');
 });
