@@ -336,7 +336,7 @@ Module({
     const listMessage = {
         footer: "_Subtitles from opensubtitles.org_",
         text:" ",
-        title: 'Matching subtitles for '+match[1].trim(),
+        title: 'Matching subtitles',
         buttonText: "View all",
         sections
     }
