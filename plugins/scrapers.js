@@ -328,7 +328,8 @@ Module({
     if (!match[1]) return await message.sendReply("_Need a movie/series name_");
     var news = [];
     var res = (await axios(`https://raganork-api.souravkl11.xyz/api/subtitles?query=${match[1]}`)).data
-	if (res?.length && !('dl_url' in res)){
+	if (!res) return await message.sendReply('_No results!_');
+    if (res?.length && !('dl_url' in res)){
     for (let i of res) {
     news.push({title: i.title,rowId:handler+'subtitle '+i.url});
     }
