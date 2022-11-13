@@ -24,6 +24,10 @@ const Lang = getString('scrapers');
 let w = MODE == 'public' ? false : true
 const translate = require('@vitalets/google-translate-api');
 const { fromBuffer } = require('file-type')
+async function sendButton(buttons,text,footer,message){
+    const buttonMessage = {text,footer,buttons,headerType: 1}
+    return await message.client.sendMessage(message.jid, buttonMessage)
+    };
 const {
     Module
 } = require('../main');
@@ -248,24 +252,12 @@ Module({
 }, async (message, match) => {
     if (!match[1]) return await message.sendReply("_Need category!_\n_.news *kerala|india|world*_")
     if (match[1].toLowerCase() === "kerala"){
-        var buttons = [{
-            quickReplyButton: {
-                displayText: 'Mathrubhumi News',
-                id: 'nws_mt '+message.myjid
-            }
-        }, {
-            quickReplyButton: { 
-                displayText: 'Manorama News',
-                id: 'nws_ma '+message.myjid
-            }  
-        },{
-            quickReplyButton: {
-                displayText: '24 News',
-                id: '24n '+message.myjid
-            }  
-        }
-]
-       return await message.sendImageTemplate(await skbuffer("https://mplan.media/wp-content/uploads/2018/03/malayalam-news.png"),"*Select a news provider!*","We are no way affiliated with any news providers!",buttons);
+        var buttons = [
+            {buttonId: 'nws_mt '+message.myjid, buttonText: {displayText: 'Mathrubhumi'}, type: 1},
+            {buttonId: '24n '+message.myjid, buttonText: {displayText: 'TwentyFour'}, type: 1},
+            {buttonId: 'nws_ma '+message.myjid, buttonText: {displayText: 'Manorama'}, type: 1}
+        ];
+        return await sendButton(buttons,"*Select a news provider!*","_News provided by un-official REST APIs_",message);
     }
 if (match[1].toLowerCase() === "india") {
     var news = [];
@@ -323,9 +315,35 @@ Module({
     use: 'utility'
 }, async (message, match) => {
     var url = match[1] || message.reply_message.text
-    if (!url || !/\bhttps?:\/\/\S+/gi.test(url)) return await message.sendReply("*Need url*");
-    await message.send("*Taking screenshot...*");
-    return await message.sendReply(await skbuffer("https://shot.screenshotapi.net/screenshot?&url="+url.match(/\bhttps?:\/\/\S+/gi)[0]+"&fresh=true&output=image&file_type=png&wait_for_event=load"),'image')
+    if (!url || !/\bhttps?:\/\/\S+/gi.test(url)) return await message.sendReply("*_Need url!_*");
+    await message.send("_Fetching snapshot..._");
+    return await message.sendReply({url:`https://s.vercel.app/api?url=${url.match(/\bhttps?:\/\/\S+/gi)[0]}&width=1280&height=720`},'image')
+});
+Module({
+    pattern: 'subtitle ?(.*)',
+    fromMe: w,
+    desc: "Subtitle search/download utility",
+    use: 'download'
+}, async (message, match) => {
+    if (!match[1]) return await message.sendReply("_Need a movie/series name_");
+    var news = [];
+    var res = (await axios(`https://raganork-api.souravkl11.xyz/api/subtitles?query=${match[1]}`)).data
+	if (res?.length){
+    for (let i of res) {
+    news.push({title: i.title,rowId:handler+'subtitle '+i.url});
+    }
+    const sections = [{title: "Select a result to download subtitle file!",rows: news}];
+    const listMessage = {
+        footer: "_Subtitles from opensubtitles.org_",
+        text:" ",
+        title: 'Matching subtitles for '+match[1].trim(),
+        buttonText: "View all",
+        sections
+    }
+    return await message.client.sendMessage(message.jid, listMessage,{quoted: message.data})
+} else if ('dl_url' in res){
+  return await message.client.sendMessage(message.jid,{document: {url: res.url},fileName:res.title,mimetype:'application/x-subrip'})
+} else return await message.sendReply('_No results!_');
 });
 Module({
     on: 'button',
