@@ -143,8 +143,12 @@ async function sendButton(buttons,text,footer,message){
             let newEnv = envFile+'\n'+key+'='+config[key]
             await fs.writeFileSync(`./config.env`,newEnv)
         }
-        return await m.sendReply(`_Successfully set ${key} to ${config[key]}_`)
-        } catch(e){
+        await m.sendReply(`_Successfully set ${key} to ${config[key]}, rebooting._`)
+        if (key == "SESSION"){
+        await require('fs-extra').removeSync('./baileys_auth_info'); 
+        }
+        process.exit(0)    
+    } catch(e){
             return await m.sendReply("_Are you a VPS user? Check out wiki for more._\n"+e.message);
         }
         }   
