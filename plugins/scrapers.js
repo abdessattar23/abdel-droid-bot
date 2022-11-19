@@ -343,7 +343,7 @@ Module({
     }
     return await message.client.sendMessage(message.jid, listMessage,{quoted: message.data})
 } else if ("dl_url" in res){
-  return await message.client.sendMessage(message.jid,{document: {url: res.dl_url},fileName:res.title,caption:'_*File:* '+res.title.trim()+'_',mimetype:'application/x-subrip'},{quoted:message.data})
+  return await message.client.sendMessage(message.jid,{document: {url: res.dl_url},fileName:res.title+'.srt',caption:'_*File:* '+res.title.trim()+'_',mimetype:'application/x-subrip'},{quoted:message.data})
 } else return await message.sendReply('_No results!_');
 });
 Module({
