@@ -13,11 +13,11 @@ const fancy = require('./misc/fancy');
      if (!match[1] && !message.reply_message.message) return await message.sendReply("Reply to any message with .fancy number\n" + Fancy("example", "32"))
      const id = match[1].match(/\d/g)?.join('')
      try {
-        if (!id && !message.reply_message?.text){
-            let styles = Object.keys(fancy).filter(e=>e.length<3)
+        if (id === undefined && !message.reply_message){
+            let styles = (Object.keys(fancy)).filter(e=>e.length<3)
             let msg = ''
             for (let style in styles){
-            msg+= fancy.apply(styles[style],match[1])
+            msg+= fancy.apply(styles[parseInt(style)],match[1])
             }
         }
         return await message.sendReply(fancy.apply(fancy[parseInt(id)],message.reply_message.text || match[1].replace(id,'')))    
