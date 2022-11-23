@@ -17,7 +17,7 @@ require('../main').Module({
             return await message.sendReply(fancy.list('Text here',fancy));
         }
         return await message.sendReply(fancy.apply(fancy[parseInt(id)+1],message.reply_message.text || match[1].replace(id,'')))    
-    } catch (e) {
-         return await message.sendReply(e.message)
+    } catch {
+        return await message.sendReply('_No such style :(_')
      }
  }))
