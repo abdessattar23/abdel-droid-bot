@@ -14,7 +14,7 @@ require('../main').Module({
     const id = match[1].match(/\d/g)?.join('')
      try {
         if (id === undefined && !message.reply_message){
-            return await message.sendReply(fancy.list('Text here',fancy));
+            return await message.sendReply(fancy.list(match[1],fancy));
         }
         return await message.sendReply(fancy.apply(fancy[parseInt(id)+1],message.reply_message.text || match[1].replace(id,'')))    
     } catch {
