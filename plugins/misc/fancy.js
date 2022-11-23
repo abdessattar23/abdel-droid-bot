@@ -2,7 +2,7 @@ function apply(map,text){let result="";for(let character of text.split("")){if(m
 return result}
 function list(text,fancy){let styles=(Object.keys(fancy)).filter(e=>e.length<3)
     let msg='\n*Numeric codes:*\n\n'
-    for(let style in styles){msg+=(parseInt(style)+1)+'.'+fancy.apply(fancy[parseInt(style)],'Text here')+'\n'}
+    for(let style in styles){msg+=(parseInt(style)+1)+'.'+fancy.apply(fancy[parseInt(style)],text)+'\n'}
     return msg}
 module.exports = {
     0:{"0":"0","1":"1","2":"2","3":"3","4":"4","5":"5","6":"6","7":"7","8":"8","9":"9","a":"ค","b":"๖","c":"¢","d":"໓","e":"ē","f":"f","g":"ງ","h":"h","i":"i","j":"ว","k":"k","l":"l","m":"๓","n":"ຖ","o":"໐","p":"p","q":"๑","r":"r","s":"Ş","t":"t","u":"น","v":"ง","w":"ຟ","x":"x","y":"ฯ","z":"ຊ","A":"ค","B":"๖","C":"¢","D":"໓","E":"ē","F":"f","G":"ງ","H":"h","I":"i","J":"ว","K":"k","L":"l","M":"๓","N":"ຖ","O":"໐","P":"p","Q":"๑","R":"r","S":"Ş","T":"t","U":"น","V":"ง","W":"ຟ","X":"x","Y":"ฯ","Z":"ຊ" },
