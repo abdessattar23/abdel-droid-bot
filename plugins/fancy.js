@@ -16,7 +16,7 @@ require('../main').Module({
         if (id === undefined && !message.reply_message){
             return await message.sendReply(fancy.list(match[1],fancy));
         }
-        return await message.sendReply(fancy.apply(fancy[parseInt(id)+1],message.reply_message.text || match[1].replace(id,'')))    
+        return await message.sendReply(fancy.apply(fancy[parseInt(id)-1],message.reply_message.text || match[1].replace(id,'')))    
     } catch {
         return await message.sendReply('_No such style :(_')
      }
