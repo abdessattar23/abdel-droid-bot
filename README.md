@@ -1,7 +1,7 @@
 # _Raganork-multi-device_
 ## _Multi device whatsapp bot created with [@adiwajshing/baileys](https://github.com/adiwajshing/Baileys)_
 #### _Looking for non multi device version? Get it [here](https://github.com/souravkl11/raganork-legacy)_
- 
+  
 <div align="center">
    
 <a href="https://raganork.souravkl11.xyz/"><img align="center" src="https://i.imgur.com/lLgFrTQ.png" alt="Scan QR" height="112" width="300" /></a>
