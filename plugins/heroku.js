@@ -7,10 +7,13 @@ async function sendButton(buttons,text,footer,message){
     const buttonMessage = {text,footer,buttons,headerType: 1}
     return await message.client.sendMessage(message.jid, buttonMessage)
     };
-    const isVPS = !__dirname.startsWith("/skl");
+    const isVPS = !__dirname.startsWith("/rgnk");
     const {
         Module
     } = require('../main');
+    const {
+        update
+    } = require('./misc/koyeb');
     const pm2 = require('pm2')
     const {
         isAdmin,
@@ -51,7 +54,7 @@ async function sendButton(buttons,text,footer,message){
         return dDisplay + hDisplay + mDisplay + sDisplay;
         }
     let baseURI = '/apps/' + Config.HEROKU.APP_NAME;
-    
+  /*
     Module({
         pattern: 'restart$',
         fromMe: true,
@@ -64,7 +67,7 @@ async function sendButton(buttons,text,footer,message){
             await message.send(error.message)
         });
     }));
-    
+    */
     Module({
         pattern: 'shutdown$',
         fromMe: true,
@@ -73,8 +76,8 @@ async function sendButton(buttons,text,footer,message){
     }, (async (message, match) => {
         if (isVPS){
             return await pm2.stop("Raganork");
-        }
-        await heroku.get(baseURI + '/formation').then(async (formation) => {
+        } else throw "Not supported"
+            /*  await heroku.get(baseURI + '/formation').then(async (formation) => {
             forID = formation[0].id;
             await message.sendReply(Lang.SHUTDOWN_MSG)
             await heroku.patch(baseURI + '/formation/' + forID, {
@@ -84,9 +87,9 @@ async function sendButton(buttons,text,footer,message){
             });
         }).catch(async (err) => {
             await message.send(error.message)
-        });
+        });*/
     }));
-    
+    /*
     Module({
         pattern: 'dyno$',
         fromMe: true,
@@ -120,20 +123,20 @@ async function sendButton(buttons,text,footer,message){
             });
         });
     }));
-    
+    */
     Module({
         pattern: 'setvar ?(.*)',
         fromMe: true,
         desc: Lang.SETVAR_DESC,
         use: 'owner'
     }, (async (message, match) => {
-        if (isVPS){
         match=match[1]
         var m = message;
-    if (!match) return await m.sendReply("_Need params!_\n_Eg: .setvar MODE:public_")
-        try { 
+        if (!match) return await m.sendReply("_Need params!_\n_Eg: .setvar MODE:public_")
         let key = match.split(":")[0]
-        config[key]=match.replace(key+":","").replace(/\n/g, '\\n')
+        let value =match.replace(key+":","").replace(/\n/g, '\\n')
+        if (isVPS){
+        try { 
         var envFile = fs.readFileSync(`./config.env`).toString('utf-8')
         let matches = envFile.split('\n').filter(e=>e.startsWith(key))
         if (matches.length==1){
@@ -151,22 +154,14 @@ async function sendButton(buttons,text,footer,message){
     } catch(e){
             return await m.sendReply("_Are you a VPS user? Check out wiki for more._\n"+e.message);
         }
-        }   
-        if (match[1] === '' || !match[1].includes(":")) return await message.sendReply(Lang.KEY_VAL_MISSING)
-        if ((varKey = match[1].split(':')[0]) && (varValue = match[1].replace(match[1].split(':')[0] + ":", ""))) {
-            await heroku.patch(baseURI + '/config-vars', {
-                body: {
-                    [varKey]: varValue
-                }
-            }).then(async (app) => {
-                await message.sendReply(Lang.SET_SUCCESS.format(varKey, varValue))
-            });
         } else {
-            await message.sendReply(Lang.INVALID)
-        }
+            let set_res = await update(key,value)
+            if (set_res) return await m.sendReply(`_Successfully set ${key} to ${config[key]}, rebooting._`)
+            else throw "Error!"
+        }   
     }));
     
-    
+    /*
     Module({
         pattern: 'delvar ?(.*)',
         fromMe: true,
@@ -193,7 +188,7 @@ async function sendButton(buttons,text,footer,message){
         });
     
     }));
-    Module({
+    */Module({
         pattern: 'getvar ?(.*)',
         fromMe: true,
         desc: Lang.GETVAR_DESC,
@@ -211,7 +206,7 @@ async function sendButton(buttons,text,footer,message){
             await await message.send(error.message)
         });
     }));
-    Module({
+    /*Module({
             pattern: "allvar",
             fromMe: true,
             desc: Lang.ALLVAR_DESC,
@@ -234,7 +229,7 @@ async function sendButton(buttons,text,footer,message){
                     await message.send(error.message)
                 })
         }
-    );
+    );*/
     Module({
         pattern: 'chatbot ?(.*)',
         fromMe: true,
