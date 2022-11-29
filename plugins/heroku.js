@@ -155,8 +155,9 @@ async function sendButton(buttons,text,footer,message){
             return await m.sendReply("_Are you a VPS user? Check out wiki for more._\n"+e.message);
         }
         } else {
+            config[key] = value
             let set_res = await update(key,value)
-            if (set_res) return await m.sendReply(`_Successfully set ${key} to ${config[key]}, rebooting._`)
+            if (set_res) return await m.sendReply(`_Successfully set ${key} to ${key}, redeploying._`)
             else throw "Error!"
         }   
     }));
