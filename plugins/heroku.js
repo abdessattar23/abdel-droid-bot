@@ -135,6 +135,7 @@ async function sendButton(buttons,text,footer,message){
         if (!match) return await m.sendReply("_Need params!_\n_Eg: .setvar MODE:public_")
         let key = match.split(":")[0]
         let value =match.replace(key+":","").replace(/\n/g, '\\n')
+        config[key] = value
         if (isVPS){
         try { 
         var envFile = fs.readFileSync(`./config.env`).toString('utf-8')
@@ -155,7 +156,6 @@ async function sendButton(buttons,text,footer,message){
             return await m.sendReply("_Are you a VPS user? Check out wiki for more._\n"+e.message);
         }
         } else {
-            config[key] = value
             let set_res = await update(key,value)
             if (set_res) return await m.sendReply(`_Successfully set ${key} to ${value}, redeploying._`)
             else throw "Error!"
