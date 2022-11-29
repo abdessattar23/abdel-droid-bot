@@ -1,6 +1,6 @@
 # _Raganork-multi-device_
 ## _Multi device whatsapp bot created with [@adiwajshing/baileys](https://github.com/adiwajshing/Baileys)_
-#### _No need of forking this repository_
+#### _(i) No need of forking this repository_
   
 <div align="center">
    
@@ -14,6 +14,8 @@
 <br>
 <div>
   <br>
+
+## _[Koyeb: How to deploy](https://github.com/souravkl11/raganork-md/wiki/Deploying-with-Koyeb)_
 
 ## _[Basic usage helper](https://github.com/souravkl11/raganork-md/wiki/Raganork-Documentation)_
 
