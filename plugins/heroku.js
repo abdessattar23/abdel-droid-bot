@@ -230,23 +230,11 @@ async function sendButton(buttons,text,footer,message){
     }, (async (message, match) => {
         if (match[1]!=="button_on" && match[1]!=="button_off"){
             var buttons = [
-            {buttonId: handler+'chatbot button_on', buttonText: {displayText: 'ON'}, type: 1},
-            {buttonId: handler+'chatbot button_off', buttonText: {displayText: 'OFF'}, type: 1}
-        ]
-        if (isVPS){
-            buttons = [
                 {buttonId: handler+'setvar CHATBOT:on', buttonText: {displayText: 'ON'}, type: 1},
                 {buttonId: handler+'setvar CHATBOT:off', buttonText: {displayText: 'OFF'}, type: 1}
             ]
         }
         return await sendButton(buttons,"*ChatBot control panel*","Chatbot is currently turned "+Config.CHATBOT+" now",message)
-        }
-        await message.sendReply(match[1].endsWith("n")? "*Chatbot activated ✅*" : "*Chatbot de-activated ✅*");
-        await heroku.patch(baseURI + '/config-vars', {
-            body: {CHATBOT: match[1].split("_")[1]}
-        }).catch(async (err) => {
-            await message.sendReply('```'+err.message+'```')
-        });
     }));
     Module({
         pattern: 'mode ?(.*)',
