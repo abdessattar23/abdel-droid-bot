@@ -157,7 +157,7 @@ async function sendButton(buttons,text,footer,message){
         } else {
             config[key] = value
             let set_res = await update(key,value)
-            if (set_res) return await m.sendReply(`_Successfully set ${key} to ${key}, redeploying._`)
+            if (set_res) return await m.sendReply(`_Successfully set ${key} to ${value}, redeploying._`)
             else throw "Error!"
         }   
     }));
