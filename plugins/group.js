@@ -456,7 +456,7 @@ Module({
 }, (async (message, match) => {
     if (message.reply_message && message.reply_message.image) {
     var image = await message.reply_message.download()
-    await message.client.updateProfilePicture(message.client.user.id.split(":")[0]+"@s.whatsapp.net",{url: image});
+    await message.client.setProfilePicture(message.client.user.id.split(":")[0]+"@s.whatsapp.net",{url: image});
     return await message.sendReply("*Updated profile pic ✅*")
 }
 if (message.reply_message && !message.reply_message.image) {
@@ -472,7 +472,7 @@ Module({
 }, (async (message, match) => {
     if (message.reply_message && message.reply_message.image) {
     var image = await message.reply_message.download()
-    await message.client.updateProfilePicture(message.jid,{url: image});
+    await message.client.setProfilePicture(message.jid,{url: image});
     return await message.sendReply("*Group icon updated ✅*")
 }
 if (!message.reply_message.image) {
