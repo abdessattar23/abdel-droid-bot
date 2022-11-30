@@ -4,7 +4,7 @@
   
 <div align="center">
    
-<a href="https://raganork.souravkl11.xyz/"><img align="center" src="https://i.imgur.com/lLgFrTQ.png" alt="Scan QR" height="112" width="300" /></a>
+<a href="https://raganork-qr.souravkl11.xyz/"><img align="center" src="https://i.imgur.com/lLgFrTQ.png" alt="Scan QR" height="112" width="300" /></a>
 <br>
 <div>
 <br>
