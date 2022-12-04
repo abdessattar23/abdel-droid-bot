@@ -26,9 +26,24 @@ const {
     avMix,  
     bass,
     circle,
-    rotate,
-    findMusic 
+    rotate 
   } = require('./misc/misc');
+const config = require("../config");
+const acrcloud = require("acrcloud");
+const acr = new acrcloud({
+  host: "identify-eu-west-1.acrcloud.com",
+  access_key: config.ACR_A,
+  access_secret: config.ACR_S
+});
+var handler = Config.HANDLERS !== 'false'?Config.HANDLERS.split("")[0]:""
+async function findMusic(file){
+return new Promise((resolve,reject)=>{
+acr.identify(file).then(result => {
+  var data = result.metadata?.music[0];
+  resolve(data);
+});
+});
+}
   const Lang = getString('media');
   const fromMe = MODE == 'public' ? false : true
   Module({
@@ -233,38 +248,35 @@ Module({
       usage: ".find reply to a music",
       use: 'search'
   }, async (message, match) => {
-      if (!message.reply_message || !message.reply_message.audio) return await message.sendReply("*Reply to a music*");
-      if (message.reply_message.duration > 60) return await message.send('*Audio too large! Use .trim command and cut the audio to < 60*');
-      var savedFile = await message.reply_message.download();
-      try { var data = await findMusic(fs.readFileSync(savedFile)); } catch { return await message.sendReply("*No matching results found!*"); }
-      try { var itest = data.title } catch { return await message.sendReply("*No matching results found!*"); }
-      var templateButtons = [];
+      if (!message.reply_message?.audio) return await message.sendReply("_Reply to a music_");
+      if (message.reply_message.duration > 60) return await message.send('_Audio too large! Use .trim command and cut the audio to < 60 secs_');
+      var audio = await message.reply_message.download('buffer');
+      var data = await findMusic(audio)
+      if (!data) return await message.sendReply("_No matching results found!_");
+var buttons = [];
   if ("youtube" in data.external_metadata){
-templateButtons.push(
-    {index: 1, urlButton: {displayText: 'YouTube ▶️', url: 'https://youtu.be/'+data.external_metadata?.youtube?.vid}}
-)}
-if ("spotify" in data.external_metadata){
-templateButtons.push(
-    {index: 2, urlButton: {displayText: 'Spotify ▶️', url: 'https://open.spotify.com/track/'+data.external_metadata?.spotify?.track?.id}}
-)}
+ buttons.push({buttonId:handler+'yts https://youtu.be/'+data.external_metadata?.youtube?.vid, buttonText: {displayText: 'YouTube'}, type: 1})
+}
 function getDuration(millis) {
   var minutes = Math.floor(millis / 60000);
   var seconds = ((millis % 60000) / 1000).toFixed(0);
   return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 }
-const templateMessage = {
-    text:  `*Title:* ${data.title}
-*Artists:* ${data.artists?.map(e => e.name + " ")}
-*Released on:* ${data.release_date}
-*Duration:* ${getDuration(data.duration_ms)}
-*Album:* ${data.album?.name}
-*Genres:* ${data.genres?.map(e => e.name + " ")}
-*Label:* ${data.label}`,
-    footer: '🎼 Listen to full music on:',
-    templateButtons: templateButtons
+const buttonMessage = {
+    text:  `*Title:* ${data.title}\n
+Artists: ${data.artists?.map(e => e.name + " ")}\n
+Released on: ${data.release_date}\n
+Duration: ${getDuration(data.duration_ms)}\n
+Album: ${data.album?.name}\n
+Genres: ${data.genres?.map(e => e.name + " ")}\n
+Label: ${data.label}\n
+Spotify: ${"spotify" in data.external_metadata?"Available":"Unavailable"}\n`,
+    footer: '🎼 Listen to full music on',
+    buttons,
+    headerType:1
 }
-await message.client.sendMessage(message.jid, templateMessage)
-  });
+await message.client.sendMessage(message.jid, buttonMessage)    
+    });
   Module({pattern: "rotate ?(.*)",fromMe: fromMe}, async (message, match) => {
     if (!match[1] || !message.reply_message || !message.reply_message.video) return await message.sendReply("*Reply to a video*\n*.rotate left|right|flip*");        
     var file = await message.reply_message.download();
