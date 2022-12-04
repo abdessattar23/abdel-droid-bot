@@ -35,7 +35,7 @@ const acr = new acrcloud({
   access_key: config.ACR_A,
   access_secret: config.ACR_S
 });
-var handler = Config.HANDLERS !== 'false'?Config.HANDLERS.split("")[0]:""
+var handler = Config.HANDLERS !== 'false'?config.HANDLERS.split("")[0]:""
 async function findMusic(file){
 return new Promise((resolve,reject)=>{
 acr.identify(file).then(result => {
