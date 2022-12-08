@@ -237,6 +237,46 @@ async function sendButton(buttons,text,footer,message){
         return await sendButton(buttons,"*ChatBot control panel*","Chatbot is currently turned "+Config.CHATBOT+" now",message)
     }));
     Module({
+        pattern: 'settings ?(.*)',
+        fromMe: true,
+        desc: "Bot settings. Enable extra options related to WhatsApp visibility.",
+        use: 'owner'
+    }, (async (message, match) => {
+        if (match[1].includes(";")){
+            let key_ = match[1].split(";")
+            var buttons = [
+                {buttonId: handler+`setvar ${key_[0]}:true`, buttonText: {displayText: 'ON'}, type: 1},
+                {buttonId: handler+`setvar ${key_[0]}:false`, buttonText: {displayText: 'OFF'}, type: 1}
+            ]
+            return await sendButton(buttons,`_${key_[1]}_`,`_Current status: ${config[key_[0]]?'enabled':'disabled'}_`,message)
+    
+        }
+            const sections = [
+                {
+                title: "Configure these:",
+                rows: [
+                    {title: "Auto read all messages", rowId: handler+"settings READ_MESSAGES;Auto read all messages"},
+                    {title: "Auto read command messages", rowId: handler+"settings READ_COMMAND;Auto read command messages"},
+                    {title: "Auto read status updates", rowId: handler+"settings AUTO_READ_STATUS;Auto read status updates"},
+                    {title: "Auto reject calls", rowId: handler+"settings REJECT_CALLS;Auto reject calls"},
+                    {title: "Always online", rowId: handler+"settings ALWAYS_ONLINE;Always Online"},
+                    {title: "PM Auto blocker", rowId: handler+"settings PMB_VAR;PM auto blocker"},
+                    {title: "Disable bot in PM", rowId: handler+"settings DIS_PM;Disable public bot use in PM"}
+                ]
+                }
+            ]
+            
+            const listMessage = {
+              text: " ",
+              footer: "_Configure your settings_",
+              title: "_Settings_",
+              buttonText: "view",
+              sections
+            }
+            
+         return await message.client.sendMessage(message.jid, listMessage)
+        }));
+    Module({
         pattern: 'mode ?(.*)',
         fromMe: true,
         desc: "Change bot mode to public & private",
